@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "174045405795",
+    "firebase_url": "https://nickservicios-notices.firebaseio.com",
+    "project_id": "nickservicios-notices",
+    "storage_bucket": "nickservicios-notices.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174045405795:android:0d634bc6d12daa88d78e56",
+        "android_client_info": {
+          "package_name": "com.flutter.firebase.nick_tecnologia_notices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174045405795-58lq2eoo2tgp6kc5dpv1dpka76hbl99u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.firebase.nick_tecnologia_notices",
+            "certificate_hash": "4710dea97000bb4c921e4653c6db53802fde79f9"
+          }
+        },
+        {
+          "client_id": "174045405795-rsi5ed68t5i4ltg122mbt6a0edbcfh5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzD3aYTiAX-oULPprmT6xUivjwioiUKnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174045405795-rsi5ed68t5i4ltg122mbt6a0edbcfh5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

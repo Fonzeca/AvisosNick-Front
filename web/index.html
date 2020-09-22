@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="nick_tecnologia_notices">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>nick_tecnologia_notices</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <script src="https://www.gstatic.com/firebasejs/7.20/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.20/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.20/firebase-messaging.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyA8iFLEwsV_NiGmJgnlBd00mwMXe56Ab1A",
+      authDomain: "nickservicios-notices.firebaseapp.com",
+      databaseURL: "https://nickservicios-notices.firebaseio.com",
+      projectId: "nickservicios-notices",
+      storageBucket: "nickservicios-notices.appspot.com",
+      messagingSenderId: "174045405795",
+      appId: "1:174045405795:web:24eab6eff8b0f284d78e56"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+</html>
