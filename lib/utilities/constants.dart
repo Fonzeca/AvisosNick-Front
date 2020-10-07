@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const int LOGIN_TYPE_GOOGLE = 1;
+const int LOGIN_TYPE_FACEBOOK = 2;
+const int LOGIN_TYPE_NORMAL = 3;
+
 final Color nickPrimaryColor = Color(0xffbdbdbd);
 final Color nickPrimaryColorLight = Color(0xffefefef);
 final Color nickPrimaryColorDark = Color(0xff8d8d8d);

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nick_tecnologia_notices/screens/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
 
@@ -73,7 +74,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Avisos"),
               leading: Icon(Icons.home, color: nickAccentColor,),
               onTap: (){
-
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -87,13 +88,14 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Administración"),
               leading: Icon(Icons.format_list_bulleted,color: nickAccentColor),
               onTap: (){
-
+                Navigator.of(context).pushNamed('/administrator');
               },
             ),
             ListTile(
               title: Text("Salir"),
               leading: Icon(Icons.exit_to_app,color: nickAccentColor),
               onTap: (){
+                Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
 
               },
             ),
