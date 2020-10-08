@@ -10,7 +10,7 @@ final ServidorRest _servidorRest = ServidorRest();
 final FirebaseMessaging messaging = FirebaseMessaging();
 
 Future<bool> signInWithGoogle() async {
-  GoogleSignInAccount googleUser = await googleSignIn.signInSilently();
+  GoogleSignInAccount googleUser = await googleSignIn.signIn();
 
   GoogleSignInAuthentication googleAuth = await googleUser.authentication;
   String token = await _servidorRest.loginWithGoogle(googleAuth.idToken);

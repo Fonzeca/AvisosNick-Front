@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
+import 'package:nick_tecnologia_notices/model/type.dart';
+import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:universal_io/io.dart';
 
@@ -10,7 +13,6 @@ class ServidorRest {
   final client = MindiaHttpClient(http.Client());
   final String IpServer = "http://vps-1791261-x.dattaweb.com";
   final String Port = "45589";
-
 
   Future<void> login(String email, String password) async {
     String endpoint = "/login";
@@ -42,7 +44,7 @@ class ServidorRest {
       throw new Exception("Error al conectar al servidor.");
     }
   }
-  
+
   Future<void> setToken(String token) async{
     String endpoint = "/user/setToken";
     String params = "?token=" + token;
@@ -53,8 +55,12 @@ class ServidorRest {
     }
   }
 
+  /**
+   * Notice api calls
+   */
+
   //TODO: retrieve all notices from back (Chceck token)
-  Future <List> checkNotices() async{
+  Future<List> checkNotices() async{
     String endpoint = "/notice/checkNotices";
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
@@ -65,11 +71,109 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["title"],n["description"],n["author"],n["creationDate"]);
+      NoticeModel notice = new NoticeModel(n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
       notices.add(notice);
     }
     return notices;
 
   }
+  Future<void> createNotice(PojoCreateNotice pojoCreateNotice) async{
+    String endpoint = "/notice/create";
+    //TODO: test the json.
+    var response = await client.post(IpServer + ":" + Port + endpoint,body: jsonEncode(pojoCreateNotice));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print("Noticia creada con éxito.");
+  }
+
+  Future<void> markNoticeAsRead(PojoId pojoId) async{
+    String endpoint = "/notice/markAsRead";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print(pojoId.id);
+  }
+
+  Future<void> deactivateNotice(PojoId pojoId) async{
+    String endpoint = "/notice/deactivate";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print(pojoId.id);
+  }
+
+  Future<void> modifyNotice(PojoModifyNotice pojoModifyNotice) async{
+    String endpoint = "/notice/modify";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoModifyNotice));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print(pojoModifyNotice.title);
+  }
+
+  Future<List<String>> getNoticeReaders(PojoId pojoId) async{
+    String endpoint = "/notice/readedBy";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print(pojoId.id);
+  }
+
+  /**
+   * User api calls
+   */
+  Future<void> createUser(VUser user) async{
+    String endpoint = "/user/create";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print(user.email);
+  }
+
+  Future<void> setTypeToUser(String mail,String type) async{
+    String endpoint = "/user/setType";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(<String,String>{
+      "string1":mail,
+      "string2": type
+    }));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+  }
+
+
+  /**
+   * UserType api calls
+   */
+  Future<void> createUserType(PojoUserType type) async{
+    String endpoint = "/types/create";
+    var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(type));
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    print("Tipo de usuario creado con éxito!");
+  }
+
+  Future<List<UserType>> getAllUserTypes() async{
+    String endpoint = "/types/allTypes";
+    var response = await client.post(IpServer + ":" + Port + endpoint);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    var jsonData = json.decode(response.body);
+    List<UserType> types= [];
+    for(var n in jsonData){
+      UserType type = new UserType(n["id"],n["code"],n["description"],n["active"]);
+      types.add(type);
+    }
+    return types;
+  }
+
+
 
 }
