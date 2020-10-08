@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
+import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
+import 'package:universal_io/io.dart';
 
 class ServidorRest {
   final client = MindiaHttpClient(http.Client());
@@ -49,7 +53,22 @@ class ServidorRest {
     }
   }
 
-  void checkNotices(){
+  //TODO: retrieve all notices from back (Chceck token)
+  Future <List> checkNotices() async{
+    String endpoint = "/notice/checkNotices";
+
+    var response = await client.get(IpServer + ":" + Port + endpoint);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+
+    var jsonData = json.decode(response.body);
+    List<NoticeModel> notices= [];
+    for(var n in jsonData){
+      NoticeModel notice = new NoticeModel(n["title"],n["description"],n["author"],n["creationDate"]);
+      notices.add(notice);
+    }
+    return notices;
 
   }
 
