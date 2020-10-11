@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/dashBoard' : (BuildContext context) => new DashBoardNotices(),
         '/administrator' : (BuildContext context) => new AdministratorMenu(),
+        '/administrator/usuarios' : (BuildContext context) => new AdminMenuUsuarios(),
         '/login' : (BuildContext context) => new LoginScreen(),
       },
     );

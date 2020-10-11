@@ -95,6 +95,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Administración"),
               leading: Icon(Icons.format_list_bulleted,color: nickAccentColor),
               onTap: (){
+                Navigator.pop(context);
                 Navigator.of(context).pushNamed('/administrator');
               },
             ),

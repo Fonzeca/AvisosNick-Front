@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "944140954391",
+    "firebase_url": "https://avisosnick.firebaseio.com",
+    "project_id": "avisosnick",
+    "storage_bucket": "avisosnick.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944140954391:android:f724fd4e671d39188a6552",
+        "android_client_info": {
+          "package_name": "com.flutter.firebase.nick_tecnologia_notices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944140954391-roskdqfusu215btrldisog9akat9gh5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.firebase.nick_tecnologia_notices",
+            "certificate_hash": "0eefbcac7555debc60b03fb0d0b328503b25a89e"
+          }
+        },
+        {
+          "client_id": "944140954391-iuoilfj8dkfadhsog924buo7gnt32atl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.firebase.nick_tecnologia_notices",
+            "certificate_hash": "4710dea97000bb4c921e4653c6db53802fde79f9"
+          }
+        },
+        {
+          "client_id": "944140954391-sjb76opctmefo2m14pt0aelqeh8cq8ub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDumeSULDmOcAUluy3plJHxHD-kZpnhZ74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944140954391-sjb76opctmefo2m14pt0aelqeh8cq8ub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
