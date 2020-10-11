@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nick_tecnologia_notices/manager/api_calls.dart';
+import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 
 class AdministratorMenu extends StatefulWidget {
@@ -7,24 +9,6 @@ class AdministratorMenu extends StatefulWidget {
 }
 
 class _AdministratorMenuState extends State<AdministratorMenu> {
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Administración"),
-      ),
-      body: Fragment1(),
-    );
-  }
-}
-
-class Fragment1 extends StatefulWidget {
-  @override
-  _Fragment1State createState() => _Fragment1State();
-}
-class _Fragment1State extends State<Fragment1> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,9 +45,9 @@ class _Fragment1State extends State<Fragment1> {
                   text,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xff2a2a2a),
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold
+                      color: Color(0xff2a2a2a),
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
               ],
@@ -73,50 +57,6 @@ class _Fragment1State extends State<Fragment1> {
       ),
       decoration: BoxDecoration(color: nickAccentColor, borderRadius: BorderRadius.circular(7)),
     );
-  }
-}
-
-class AdminMenuUsuarios extends StatefulWidget {
-  @override
-  _AdminMenuUsuariosState createState() => _AdminMenuUsuariosState();
-}
-class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Text("primero"),
-              Text("segundo"),
-            ],
-          ),
-          title: Text("Menu de usuarios"),
-        ),
-        body: TabBarView(
-          children: [
-            Center(child: Text("Primero"),),
-            Center(child: Text("Segundo"),),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _listaUsuarios(){
-
-    return ListView.builder(
-      itemCount: 30,
-      itemBuilder: (BuildContext context, index){
-        return null;
-      }
-    );
-  }
-
-  Widget _itemListaUsuario(){
-    return Card();
   }
 
 }

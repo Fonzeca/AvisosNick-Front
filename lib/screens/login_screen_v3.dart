@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
@@ -17,16 +18,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Color colorTextLogin = Colors.black;
 
   final kHintTextStyle = TextStyle(
-    color: Colors.white,
-    fontFamily: 'OpenSans',
-    fontSize: 12
+      color: Colors.white,
+      fontFamily: 'OpenSans',
+      fontSize: 12
   );
 
   final kLabelStyle = TextStyle(
-    color: Colors.black,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'OpenSans',
-    fontSize: 12
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'OpenSans',
+      fontSize: 12
   );
 
   final kBoxDecorationStyle = BoxDecoration(
@@ -40,6 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     ],
   );
+
+  final ServidorRest _servidorRest = ServidorRest();
+
+  String emailText = "";
+  String passwordText = "";
 
   Widget _buildEmailTF() {
     return Column(
@@ -55,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 50.0,
           child: TextField(
+            onChanged: (text) => emailText = text,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -89,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 50.0,
           child: TextField(
+            onChanged: (text) => passwordText = text,
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -154,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => signIn(3, context),
+        onPressed: () => signIn(3, context, emailText, passwordText),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -261,6 +269,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _servidorRest.validateToken().then((value) => {
+      if(value){
+        Navigator.of(context).pushReplacementNamed("/dashBoard")
+      }
+    });
+
+
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,

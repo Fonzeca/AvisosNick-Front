@@ -9,22 +9,32 @@ final GoogleSignIn googleSignIn = GoogleSignIn(clientId: "944140954391-iuoilfj8d
 final ServidorRest _servidorRest = ServidorRest();
 final FirebaseMessaging messaging = FirebaseMessaging();
 
+/**
+ * Google sign In
+ */
+
 Future<bool> signInWithGoogle() async {
   GoogleSignInAccount googleUser = await googleSignIn.signIn();
 
   GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  String token = await _servidorRest.loginWithGoogle(googleAuth.idToken);
 
-  return true;
+  return await _servidorRest.loginWithGoogle(googleAuth.idToken);
 }
 
 void signOutGoogle() async{
   await googleSignIn.signOut();
 }
 
+/**
+ * Basic Sign In
+ */
+Future<bool> signInBasic(String email, String password) async{
+  return await _servidorRest.login(email, password);
+}
 
-/// Funcion unica para intentar loguearse con los 3 tipos de proveedores.
-Future<bool> signIn(int type, BuildContext context) async {
+
+/// Funcion única para intentar loguearse con los 3 tipos de proveedores.
+Future<bool> signIn(int type, BuildContext context, [String email, String password]) async {
   bool canLogIn = false;
 
   switch(type){
@@ -35,8 +45,7 @@ Future<bool> signIn(int type, BuildContext context) async {
       print('Sing In With Facebook');
       break;
     case LOGIN_TYPE_NORMAL:
-      print('Sing In With Firebase Basic');
-      canLogIn = true;
+      canLogIn = await signInBasic(email, password);
       break;
   }
   if(canLogIn){

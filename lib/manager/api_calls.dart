@@ -14,34 +14,49 @@ class ServidorRest {
   final String IpServer = "http://vps-1791261-x.dattaweb.com";
   final String Port = "45589";
 
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     String endpoint = "/login";
     String requestParam = "?email=" + email + "&password=" + password;
 
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
+    print("Login basic");
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode != 200){
+      return false;
+    }
+
     MindiaHttpClient.setToken(response.body, LOGIN_TYPE_NORMAL);
+    return true;
   }
 
-  Future<String> loginWithGoogle(String idTokenOAuth) async {
+  Future<bool> loginWithGoogle(String idTokenOAuth) async {
     String endpoint = "/loginWithGoogle";
     String requestParam = "?idToken=" + idTokenOAuth;
 
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
+    print("Login Google");
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode != 200){
+      return false;
+    }
     MindiaHttpClient.setToken(response.body, LOGIN_TYPE_GOOGLE);
-    return response.body;
+    return true;
   }
 
   Future<bool> validateToken() async{
     String endpoint = "/validateToken";
 
-    var response = await client.post(IpServer + ":" + Port + endpoint);
+    var response = await client.get(IpServer + ":" + Port + endpoint);
+    print("validateToken");
+    print(response.statusCode);
+    print(response.body);
 
     if(response.body.isNotEmpty && response.body == "true"){
       return true;
-    }else if(response.statusCode == 401){
-      return false;
     }else{
-      throw new Exception("Error al conectar al servidor.");
+      return false;
     }
   }
 
@@ -49,8 +64,11 @@ class ServidorRest {
     String endpoint = "/user/setToken";
     String params = "?token=" + token;
 
-    var resposne = await client.post(IpServer + ":" + Port + endpoint + params);
-    if(resposne.statusCode != 200){
+    var response = await client.post(IpServer + ":" + Port + endpoint + params);
+    print("setToken");
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
   }
@@ -64,6 +82,9 @@ class ServidorRest {
     String endpoint = "/notice/checkNotices";
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
+    print("checkNotices");
+    print(response.statusCode);
+    print(response.body);
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -174,6 +195,7 @@ class ServidorRest {
       throw new Exception("No se pudo conectar.");
     }
     var jsonData = json.decode(response.body);
+    print(jsonData);
     List<PojoUser> users= [];
     for(var n in jsonData){
       PojoUser user = new PojoUser(n["email"],n["uniqueMobileToken"],n["roles"],n["userType"]);

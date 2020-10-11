@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
-import 'package:nick_tecnologia_notices/screens/administrator_menu.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/screens/administrator/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
 
@@ -18,13 +18,16 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     "Mi cuenta",
   ];
   ServidorRest _rest = ServidorRest();
-  List<NoticeModel> noticiasOP = List();
+  List<NoticeModel> noticiasOP = null;
 
   @override
   Widget build(BuildContext context) {
-    _rest.checkNotices().then((value) => {
-      setState(() { noticiasOP = value; })
-    });
+    if(noticiasOP == null){
+      _rest.checkNotices().then((value) => {
+        setState(() { noticiasOP = value; })
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Avisos"),
@@ -115,23 +118,17 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   }
 
   Widget _buildBody() {
-
-    List<Widget> widgets= new List(noticiasOP.length);
-
-    for (var n in noticiasOP){
-      widgets.add(_buildNotice(n.title, n.description));
+    if(noticiasOP == null || noticiasOP.isEmpty){
+      return Text("No hay noticias para ti.");
     }
 
+    List<Widget> widgets = new List();
+
+    for (var notice in noticiasOP){
+      widgets.add(_buildNotice(notice.title, notice.description));
+    }
     return ListView(
-
-
       children: widgets,
-      // children: <Widget>[
-      //   _buildNotice("Horarios del retiro del recibo - Agosto", "El horario para retirar los recibos, será de 15hs a 18hs. Favor que todos los empleados se presenten en el rango de horario."),
-      //   _buildNotice("Restricción en la entrada al predio", "Debidos a algunos violaciones al protocolo de salud por la cuarentena, se decidió sacarle la manija al portón de entrada del predio. El portón se mantendrá abierto de 07hs hasta las 08hs, y de 15hs hasta las 16hs."),
-      //   _buildNotice("Medidas preventivas por el Covid-19", "Todos los empleados, antes de ingresar al predio, deberán ser escaneado por un sensor de temperatura. Al que tenga de más de 37 grados en temperatura corporal, se enviado a casa por 7 días."),
-      //   _buildNotice("Nuevo horario de ingreso", "Los empleados que trabajen en Puerto San Julián, en el taller de Nick. El horario de entrada al lugar ahora es a las 07hs."),
-      // ],
     );
   }
 
