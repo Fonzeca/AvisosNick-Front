@@ -98,9 +98,8 @@ class ServidorRest {
     }
 
     var jsonData = json.decode(response.body);
-    NoticeModel notice = null;
     for (var n in jsonData){
-      notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+      NoticeModel notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
       return notice;
     }
   }
@@ -176,7 +175,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<PojoUser> users= [];
     for(var n in jsonData){
-      PojoUser user = new PojoUser(n["email"],n["uniqueMobileToken"],n["roles"],n["userType"]);
+      PojoUser user = new PojoUser(n["mail"],n["fullName"]);
       users.add(user);
     }
     return users;
@@ -192,7 +191,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<PojoUser> users= [];
     for(var n in jsonData){
-      PojoUser user = new PojoUser(n["email"],n["uniqueMobileToken"],n["roles"],n["userType"]);
+      PojoUser user = new PojoUser(n["mail"],n["fullName"]);
       users.add(user);
     }
     return users;
