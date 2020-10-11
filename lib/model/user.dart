@@ -9,3 +9,11 @@ class VUser{
 
 
 }
+class PojoUser{
+  final String email;
+  final String uniqueMobileToken;
+  final List<String> roles;
+  final List<String> userType;
+
+  PojoUser(this.email, this.uniqueMobileToken, this.roles, this.userType);
+}

@@ -59,8 +59,8 @@ class ServidorRest {
    * Notice api calls
    */
 
-  //TODO: retrieve all notices from back (Chceck token)
-  Future<List> checkNotices() async{
+  //Get a List of the user's notices.
+  Future<List<NoticeModel>> checkNotices() async{
     String endpoint = "/notice/checkNotices";
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
@@ -71,7 +71,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["_id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
       notices.add(notice);
     }
     return notices;
@@ -85,6 +85,24 @@ class ServidorRest {
       throw new Exception("No se pudo conectar.");
     }
     print("Noticia creada con éxito.");
+  }
+
+  //TODO: Deberia devolver un solo objeto, por eso existe el return dentro del for(), checkear
+  Future<NoticeModel> getNoticeById(String id) async{
+    String endpoint = "/notice/get";
+    String params = "?id="+id;
+
+    var response = await client.get(IpServer + ":" + Port + endpoint + params);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+
+    var jsonData = json.decode(response.body);
+    NoticeModel notice = null;
+    for (var n in jsonData){
+      notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+      return notice;
+    }
   }
 
   Future<void> markNoticeAsRead(PojoId pojoId) async{
@@ -123,6 +141,7 @@ class ServidorRest {
     print(pojoId.id);
   }
 
+
   /**
    * User api calls
    */
@@ -144,6 +163,39 @@ class ServidorRest {
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
+  }
+
+
+  //TODO: asegurarse de que en la base de datos no este cargado el nombre y apellido.
+  Future<List<PojoUser>> getUsers() async {
+    String endpoint = "/user/allUsers";
+    var response = await client.get(IpServer + ":" + Port + endpoint);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    var jsonData = json.decode(response.body);
+    List<PojoUser> users= [];
+    for(var n in jsonData){
+      PojoUser user = new PojoUser(n["email"],n["uniqueMobileToken"],n["roles"],n["userType"]);
+      users.add(user);
+    }
+    return users;
+  }
+
+  Future<List<PojoUser>> getUsersByType(String type) async {
+    String endpoint = "/user/allUsersByType";
+    String params = "?type=" + type;
+    var response = await client.get(IpServer + ":" + Port + endpoint + params);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    var jsonData = json.decode(response.body);
+    List<PojoUser> users= [];
+    for(var n in jsonData){
+      PojoUser user = new PojoUser(n["email"],n["uniqueMobileToken"],n["roles"],n["userType"]);
+      users.add(user);
+    }
+    return users;
   }
 
 
