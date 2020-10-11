@@ -1,4 +1,5 @@
 class NoticeModel {
+  final String id;
   final String title;
   final String description;
   final String author;
@@ -7,7 +8,7 @@ class NoticeModel {
   final String send;
 
 
-  NoticeModel (this.title, this.description, this.author, this.creationDate,
+  NoticeModel (this.id, this.title, this.description, this.author, this.creationDate,
       this.mails, this.send);
 
 }
