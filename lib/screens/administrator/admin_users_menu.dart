@@ -50,6 +50,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
   }
 
   void init(){
+    EasyLoading.show();
     if(users == null){
       _servidorRest.getUsers().then((value) => {
         setState(() {
@@ -64,7 +65,10 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
           tiposDeUsuario = value;
         })
       });
+    }
 
+    if(users != null && tiposDeUsuario != null){
+      EasyLoading.dismiss();
     }
 
   }
@@ -152,13 +156,17 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
 
     List<DropdownMenuItem<String>> itemsDropDown = items.map((e) => DropdownMenuItem<String>(child: Text(e.code), value: e.code,)).toList();
 
-    userTypeCreateUser = itemsDropDown[0].value;
+    if(userTypeCreateUser == null || userTypeCreateUser.isEmpty)
+      userTypeCreateUser = itemsDropDown[0].value;
 
     return DropdownButton(
       value: userTypeCreateUser,
       items: itemsDropDown,
       onChanged: (Object value) {
-        userTypeCreateUser = value;
+        print(value);
+        setState((){
+          userTypeCreateUser = value;
+        });
       },
     );
   }
@@ -226,7 +234,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
       saveButtonEnabled = true;
       limpiarFormulario();
     }).catchError((e){
-      EasyLoading.showError("No se pudo terminar la operacion");
+      EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(microseconds: (Duration.microsecondsPerSecond*0.5).toInt()));
       saveButtonEnabled = true;
     });
   }
