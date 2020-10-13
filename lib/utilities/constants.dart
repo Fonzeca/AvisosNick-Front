@@ -10,6 +10,8 @@ final Color nickPrimaryColorDark = Color(0xff8d8d8d);
 
 final Color nickAccentColor = Color(0xff40a7ae);
 
+final String ROLE_USER = "ROLE_USER";
+final String ROLE_ADMIN = "ROLE_ADMIN";
 
 //NoticeList
 final fTitleNoticeList = TextStyle(

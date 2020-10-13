@@ -12,6 +12,7 @@ class MindiaHttpClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString(_keyTokenPref);
+    request.headers['Content-Type'] = "application/json";
     request.headers['Authorization'] = authorization + token;
     return _inner.send(request);
   }

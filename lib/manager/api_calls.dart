@@ -165,13 +165,13 @@ class ServidorRest {
   /**
    * User api calls
    */
-  Future<void> createUser(VUser user) async{
+  Future<bool> createUser(VUser user) async{
     String endpoint = "/user/create";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
-    print(user.email);
+    return true;
   }
 
   Future<void> setTypeToUser(String mail,String type) async{
@@ -232,16 +232,16 @@ class ServidorRest {
     print("Tipo de usuario creado con éxito!");
   }
 
-  Future<List<UserType>> getAllUserTypes() async{
+  Future<List<PojoUserType>> getAllUserTypes() async{
     String endpoint = "/types/allTypes";
-    var response = await client.post(IpServer + ":" + Port + endpoint);
+    var response = await client.get(IpServer + ":" + Port + endpoint);
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
     var jsonData = json.decode(response.body);
-    List<UserType> types= [];
+    List<PojoUserType> types = [];
     for(var n in jsonData){
-      UserType type = new UserType(n["id"],n["code"],n["description"],n["active"]);
+      PojoUserType type = new PojoUserType(n["code"],n["description"]);
       types.add(type);
     }
     return types;

@@ -43,6 +43,7 @@ dependencies:
   http: ^0.12.2
   shared_preferences: ^0.5.12
   fragment_navigate: ^1.1.0
+  flutter_easyloading: ^2.0.0
 
 
 dev_dependencies:

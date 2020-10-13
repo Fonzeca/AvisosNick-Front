@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/admin_users_menu.dart';
 import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/screens/administrator/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
@@ -72,6 +73,9 @@ class MyApp extends StatelessWidget {
         '/administrator' : (BuildContext context) => new AdministratorMenu(),
         '/administrator/usuarios' : (BuildContext context) => new AdminMenuUsuarios(),
         '/login' : (BuildContext context) => new LoginScreen(),
+      },
+      builder: (BuildContext context, Widget child) {
+        return FlutterEasyLoading(child: child);
       },
     );
   }

@@ -11,16 +11,21 @@ class AdministratorMenu extends StatefulWidget {
 class _AdministratorMenuState extends State<AdministratorMenu> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 60.0),
-      child: GridView.count(
-        crossAxisCount: 2,
-        children: [
-          _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
-          _buildButton("Noticias", Icons.send, null),
-          _buildButton("Tipos de usuario", Icons.assignment_ind, null),
-          _buildButton("Análisis", Icons.analytics, null),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Administración"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 60.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          children: [
+            _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
+            _buildButton("Noticias", Icons.send, null),
+            _buildButton("Tipos de usuario", Icons.assignment_ind, null),
+            _buildButton("Análisis", Icons.analytics, null),
+          ],
+        ),
       ),
     );
   }
