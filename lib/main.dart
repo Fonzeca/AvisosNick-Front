@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/admin_users_menu.dart';
-import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/screens/administrator/administrator_menu.dart';
+import 'package:nick_tecnologia_notices/screens/administrator/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
 import 'package:nick_tecnologia_notices/screens/login_screen_v3.dart';
 import 'package:nick_tecnologia_notices/screens/notice.dart';
