@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -54,8 +55,15 @@ class MyApp extends StatelessWidget {
     // Or do other work.
   }
 
+
   @override
   Widget build(BuildContext context) {
+    BackButtonInterceptor.add((stopDefaultButtonEvent, routeInfo) {
+      if(EasyLoading.instance.w != null){
+        return true;
+      }
+      return false;
+    });
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -75,7 +83,8 @@ class MyApp extends StatelessWidget {
         '/login' : (BuildContext context) => new LoginScreen(),
       },
       builder: (BuildContext context, Widget child) {
-        return FlutterEasyLoading(child: child);
+        FlutterEasyLoading easyLoading = FlutterEasyLoading(child: child,);
+        return easyLoading;
       },
     );
   }

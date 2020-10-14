@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/screens/administrator/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -23,8 +24,14 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   @override
   Widget build(BuildContext context) {
     if(noticiasOP == null){
-      _rest.checkNotices().then((value) => {
-        setState(() { noticiasOP = value; })
+      EasyLoading.show();
+      _rest.checkNotices().then((value){
+        EasyLoading.dismiss();
+        setState((){
+          noticiasOP = value;
+        });
+      }).catchError((e){
+        EasyLoading.dismiss();
       });
     }
 
