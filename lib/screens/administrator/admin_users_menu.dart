@@ -234,7 +234,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
       saveButtonEnabled = true;
       limpiarFormulario();
     }).catchError((e){
-      EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(microseconds: (Duration.microsecondsPerSecond*0.5).toInt()));
+      EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(seconds: 1));
       saveButtonEnabled = true;
     });
   }

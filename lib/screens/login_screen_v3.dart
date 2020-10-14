@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -269,13 +270,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _servidorRest.validateToken().then((value) => {
+    EasyLoading.instance..maskType = EasyLoadingMaskType.black;
+    EasyLoading.show();
+    _servidorRest.validateToken().then((value) {
+      EasyLoading.dismiss();
       if(value){
-        Navigator.of(context).pushReplacementNamed("/dashBoard")
+        Navigator.of(context).pushReplacementNamed("/dashBoard");
       }
+    }).catchError((e){
+      EasyLoading.dismiss();
     });
-
-
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
