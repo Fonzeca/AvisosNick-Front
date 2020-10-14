@@ -118,20 +118,31 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
   Widget _buildBody() {
     if(noticiasOP == null || noticiasOP.isEmpty){
-      return Text("No hay noticias para ti.");
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Icon(Icons.auto_awesome,size: 48),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text("En este momento no se encuentran noticias.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+          ),
+        ],
+      );
     }
 
     List<Widget> widgets = new List();
 
     for (var notice in noticiasOP){
-      widgets.add(_buildNotice(notice.title, notice.description));
+      widgets.add(_buildNotice(notice.title, notice.description, notice.author, notice.creationDate));
     }
     return ListView(
       children: widgets,
     );
   }
 
-  Widget _buildNotice(String titulo, String mensaje){
+  Widget _buildNotice(String titulo, String mensaje, String autor, String fecha){
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
       child: Column(
@@ -155,7 +166,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               FlatButton(
                 child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha),));
                 },
                 color: nickPrimaryColorLight,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),

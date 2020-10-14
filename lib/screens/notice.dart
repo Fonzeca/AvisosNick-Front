@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 
 class Notice extends StatefulWidget {
-  String titulo, mensaje;
+  String titulo, mensaje, autor, fecha;
 
-  Notice(String titulo, String mensaje){
+  Notice(String titulo, String mensaje, String autor, String fecha){
     this.titulo = titulo;
     this.mensaje = mensaje;
+    this.autor = autor;
+    this.fecha = fecha;
   }
 
   @override
   State<StatefulWidget> createState() {
-    return NoticeState(titulo, mensaje);
+    return NoticeState(titulo, mensaje, autor, fecha);
   }
 }
 
 class NoticeState extends State<Notice> {
-  String titulo, mensaje;
+  String titulo, mensaje, autor, fecha;
 
-  NoticeState(String titulo, String mensaje){
+  NoticeState(String titulo, String mensaje, String autor, String fecha){
     this.titulo = titulo;
     this.mensaje = mensaje;
+    this.autor = autor;
+    this.fecha = fecha;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +72,15 @@ class NoticeState extends State<Notice> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text("Fecha de creacion: "),
-                          Text("02/06/1996")
+                          Text("Fecha de creación: "),
+                          Text(fecha)
                         ],
                       ),
                       SizedBox(height: 20,),
                       Row(
                         children: <Widget>[
                           Text("Escrita por: "),
-                          Text("Silvina Caceres")
+                          Text(autor)
                         ],
                       )
                     ],
