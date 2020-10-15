@@ -21,9 +21,9 @@ class _AdministratorMenuState extends State<AdministratorMenu> {
           crossAxisCount: 2,
           children: [
             _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
-            _buildButton("Noticias", Icons.send, null),
+            _buildButton("Avisos", Icons.send, "/administrator/notices"),
             _buildButton("Tipos de usuario", Icons.assignment_ind, "/administrator/userTypes"),
-            _buildButton("Análisis", Icons.analytics, null),
+            _buildButton("Análisis", Icons.analytics, "/administrator/analysis"),
           ],
         ),
       ),
