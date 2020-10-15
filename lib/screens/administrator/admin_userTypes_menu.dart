@@ -26,7 +26,7 @@ class AdminUserTypeMenuState extends State<AdminUserTypeMenu>{
       body: Container(
           height: double.infinity,
           width: double.infinity,
-          child: _buildListOfUserTypes(null)
+          child: _buildListOfUserTypes(tiposDeUsuario)
       ),
     );
   }
