@@ -22,7 +22,7 @@ class _AdministratorMenuState extends State<AdministratorMenu> {
           children: [
             _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
             _buildButton("Noticias", Icons.send, null),
-            _buildButton("Tipos de usuario", Icons.assignment_ind, null),
+            _buildButton("Tipos de usuario", Icons.assignment_ind, "/administrator/userTypes"),
             _buildButton("Análisis", Icons.analytics, null),
           ],
         ),
