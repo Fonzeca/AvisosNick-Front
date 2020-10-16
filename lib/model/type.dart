@@ -4,6 +4,11 @@ class PojoUserType{
 
   PojoUserType(this.code, this.description);
 
+  Map<String, dynamic> toJson()=>{
+    'code' : code,
+    'description' : description
+  };
+
 
 }
 class UserType{

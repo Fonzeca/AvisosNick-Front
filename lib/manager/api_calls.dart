@@ -140,6 +140,24 @@ class ServidorRest {
 
   }
 
+  //Get a List with all the current notices.
+  Future<List<NoticeModel>> getAllNotices() async{
+    String endpoint = "/notice/getAll";
+
+    var response = await client.get(IpServer + ":" + Port + endpoint);
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+
+    var jsonData = json.decode(response.body);
+    List<NoticeModel> notices = [];
+    for(var n in jsonData){
+      NoticeModel notice = new NoticeModel(n["_id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      notices.add(notice);
+    }
+    return notices;
+  }
+
 
   //TODO: Deberia devolver un solo objeto, por eso existe el return dentro del for(), checkear
   Future<NoticeModel> getNoticeById(String id) async{
@@ -170,6 +188,7 @@ class ServidorRest {
     }
     return true;
   }
+
 
 
   Future<void> modifyUser(VUser user) async{
@@ -269,13 +288,13 @@ class ServidorRest {
   /**
    * UserType api calls
    */
-  Future<void> createUserType(PojoUserType type) async{
+  Future<bool> createUserType(PojoUserType type) async{
     String endpoint = "/types/create";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(type));
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
-    print("Tipo de usuario creado con éxito!");
+    return true;
   }
 
   Future<List<PojoUserType>> getAllUserTypes() async{
@@ -303,7 +322,7 @@ class ServidorRest {
     }
     print("Tipo de usuario modificado con éxito.");
   }
-  
+
 
   Future<void> deactivateUserType(String code) async{
     String endpoint = "/types/deactivate";

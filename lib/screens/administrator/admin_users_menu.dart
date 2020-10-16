@@ -229,7 +229,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
 
     EasyLoading.show();
     _servidorRest.createUser(VUser(emailCreateUser, passwordCreateUser, fullNameCreateUser, roles, userTypes))
-    .then((value) {
+        .then((value) {
       EasyLoading.showSuccess("Usuario guardado");
       saveButtonEnabled = true;
       limpiarFormulario();
