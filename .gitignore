@@ -225,3 +225,4 @@ build/
 .dart_tool/
 
 android/.idea/
+.flutter-plugins-dependencies
