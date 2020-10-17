@@ -269,7 +269,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+
     EasyLoading.instance..maskType = EasyLoadingMaskType.black;
     EasyLoading.show();
     _servidorRest.validateToken().then((value) {
@@ -280,6 +282,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }).catchError((e){
       EasyLoading.dismiss();
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -340,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   SizedBox(height: 10.0,),
                                   _buildPasswordTF(),
                                   _buildForgotPasswordBtn(),
-                                  _buildRememberMeCheckbox(),
+                                  //_buildRememberMeCheckbox(),
                                   _buildLoginBtn(),
                                   _buildSignInWithText(),
                                   _buildSocialBtnRow(),

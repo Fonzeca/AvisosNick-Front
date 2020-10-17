@@ -9,6 +9,8 @@ import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:universal_io/io.dart';
 
+import 'login_in.dart';
+
 class ServidorRest {
   final client = MindiaHttpClient(http.Client());
   final String IpServer = "http://vps-1791261-x.dattaweb.com";
@@ -19,9 +21,8 @@ class ServidorRest {
     String requestParam = "?email=" + email + "&password=" + password;
 
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
-    print("Login basic");
-    print(response.statusCode);
-    print(response.body);
+    print("Login Basic/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       return false;
     }
@@ -35,9 +36,7 @@ class ServidorRest {
     String requestParam = "?idToken=" + idTokenOAuth;
 
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
-    print("Login Google");
-    print(response.statusCode);
-    print(response.body);
+    print("Login Google/ Status: " + response.statusCode.toString() + " Body: " + response.body);
     if(response.statusCode != 200){
       return false;
     }
@@ -45,17 +44,20 @@ class ServidorRest {
     return true;
   }
 
-  Future<bool> validateToken() async{
+  Future<bool> validateToken([bool loginSiently = true]) async{
     String endpoint = "/validateToken";
+    //TODO: preguntar si existe un token, antes de validar
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
-    print("validateToken");
-    print(response.statusCode);
-    print(response.body);
+
+    print("validateToken/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.body.isNotEmpty && response.body == "true"){
       return true;
     }else{
+      if(loginSiently && await signInSilently()){
+        return await validateToken(false);
+      }
       return false;
     }
   }
@@ -71,6 +73,9 @@ class ServidorRest {
     String endpoint = "/notice/create";
     //TODO: test the json.
     var response = await client.post(IpServer + ":" + Port + endpoint,body: jsonEncode(pojoCreateNotice));
+
+    print("createNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -81,6 +86,9 @@ class ServidorRest {
   Future<void> markNoticeAsRead(PojoId pojoId) async{
     String endpoint = "/notice/markAsRead";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+
+    print("markNoticeAsRead/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -91,6 +99,9 @@ class ServidorRest {
   Future<void> deactivateNotice(PojoId pojoId) async{
     String endpoint = "/notice/deactivate";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+
+    print("deactivateNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -101,6 +112,9 @@ class ServidorRest {
   Future<void> modifyNotice(PojoModifyNotice pojoModifyNotice) async{
     String endpoint = "/notice/modify";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoModifyNotice));
+
+    print("modifyNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -111,6 +125,9 @@ class ServidorRest {
   Future<List<String>> getNoticeReaders(PojoId pojoId) async{
     String endpoint = "/notice/readedBy";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
+
+    print("getNoticeReaders/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -123,9 +140,9 @@ class ServidorRest {
     String endpoint = "/notice/checkNotices";
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
-    print("checkNotices");
-    print(response.statusCode);
-    print(response.body);
+
+    print("checkNotices/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -145,6 +162,9 @@ class ServidorRest {
     String endpoint = "/notice/getAll";
 
     var response = await client.get(IpServer + ":" + Port + endpoint);
+
+    print("getAllNotices/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -165,6 +185,9 @@ class ServidorRest {
     String params = "?id="+id;
 
     var response = await client.get(IpServer + ":" + Port + endpoint + params);
+
+    print("getNoticeById/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -180,9 +203,13 @@ class ServidorRest {
   /**
    * User api calls
    */
+
   Future<bool> createUser(VUser user) async{
     String endpoint = "/user/create";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
+
+    print("createUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -194,6 +221,9 @@ class ServidorRest {
   Future<void> modifyUser(VUser user) async{
     String endpoint = "/user/modify";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
+
+    print("modifyUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -204,6 +234,9 @@ class ServidorRest {
   Future<void> modifyMyUser(VUser user) async{
     String endpoint = "/user/modifyMyUser";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
+
+    print("modifyMyUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -216,9 +249,9 @@ class ServidorRest {
     String params = "?token=" + token;
 
     var response = await client.post(IpServer + ":" + Port + endpoint + params);
-    print("setToken");
-    print(response.statusCode);
-    print(response.body);
+
+    print("setToken/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -228,6 +261,9 @@ class ServidorRest {
   Future<List<PojoUser>> getUsers() async {
     String endpoint = "/user/allUsers";
     var response = await client.get(IpServer + ":" + Port + endpoint);
+
+    print("getUsers/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -246,6 +282,9 @@ class ServidorRest {
     String endpoint = "/user/allUsersByType";
     String params = "?type=" + type;
     var response = await client.get(IpServer + ":" + Port + endpoint + params);
+
+    print("getUsersByType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -265,6 +304,9 @@ class ServidorRest {
       "string1":mail,
       "string2": type
     }));
+
+    print("setTypeToUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -278,6 +320,9 @@ class ServidorRest {
       "string1":mail,
       "string2": type
     }));
+
+    print("removeTypeToUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -288,9 +333,13 @@ class ServidorRest {
   /**
    * UserType api calls
    */
+
   Future<bool> createUserType(PojoUserType type) async{
     String endpoint = "/types/create";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(type));
+
+    print("createUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -300,6 +349,9 @@ class ServidorRest {
   Future<List<PojoUserType>> getAllUserTypes() async{
     String endpoint = "/types/allTypes";
     var response = await client.get(IpServer + ":" + Port + endpoint);
+
+    print("getAllUserTypes/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -317,6 +369,9 @@ class ServidorRest {
   Future<void> modifyUserType(PojoUserType type) async{
     String endpoint = "/types/modify";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(type));
+
+    print("modifyUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -328,6 +383,9 @@ class ServidorRest {
     String endpoint = "/types/deactivate";
     String params = "?code="+code;
     var response = await client.post(IpServer + ":" + Port + endpoint + params);
+
+    print("deactivateUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
@@ -340,6 +398,9 @@ class ServidorRest {
     String endpoint = "/user/getUserByMail";
     String params = "?mail="+mail;
     var response = await client.get(IpServer + ":" + Port + endpoint+ params);
+
+    print("getUserByMail/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
