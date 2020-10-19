@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
@@ -112,8 +113,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Salir"),
               leading: Icon(Icons.exit_to_app,color: nickAccentColor),
               onTap: (){
-                Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-
+                signOut(context);
               },
             ),
           ],
