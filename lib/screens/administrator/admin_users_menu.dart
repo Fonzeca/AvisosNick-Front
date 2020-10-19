@@ -83,10 +83,11 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     }
 
     return ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (BuildContext context, index){
-          return _itemListaUsuario(users[index]);
-        }
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      itemCount: users.length,
+      itemBuilder: (BuildContext context, index){
+        return _itemListaUsuario(users[index]);
+      }
     );
   }
 
@@ -94,7 +95,35 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     return Card(
       child: ListTile(
         title: Text(user.email),
+        trailing: FlatButton(
+          minWidth: 0,
+          onPressed: () {
+            _deleteUserModal(null);
+          },
+          child: Icon(Icons.delete),
+        ),
       ),
+    );
+  }
+
+  void _deleteUserModal(String code){
+    showDialog(context: context,
+      builder: (_) => new AlertDialog(
+        title: Text("¿Desactivar usuario?"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed:() {
+              //TODO: Hacer la funcionalidad para desactivar un usuario.
+              Navigator.of(context).pop();
+            },
+            child: Text("Aceptar")),
+          FlatButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            },
+            child: Text("Cancelar"))
+        ],
+      )
     );
   }
 

@@ -68,7 +68,6 @@ class ServidorRest {
    * Notice api calls
    */
 
-
   Future<void> createNotice(PojoCreateNotice pojoCreateNotice) async{
     String endpoint = "/notice/create";
     //TODO: test the json.
@@ -82,7 +81,6 @@ class ServidorRest {
     print("Noticia creada con éxito.");
   }
 
-
   Future<void> markNoticeAsRead(PojoId pojoId) async{
     String endpoint = "/notice/markAsRead";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
@@ -94,7 +92,6 @@ class ServidorRest {
     }
     print(pojoId.id);
   }
-
 
   Future<void> deactivateNotice(PojoId pojoId) async{
     String endpoint = "/notice/deactivate";
@@ -108,7 +105,6 @@ class ServidorRest {
     print(pojoId.id);
   }
 
-
   Future<void> modifyNotice(PojoModifyNotice pojoModifyNotice) async{
     String endpoint = "/notice/modify";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoModifyNotice));
@@ -121,7 +117,6 @@ class ServidorRest {
     print(pojoModifyNotice.title);
   }
 
-
   Future<List<String>> getNoticeReaders(PojoId pojoId) async{
     String endpoint = "/notice/readedBy";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(pojoId));
@@ -133,7 +128,6 @@ class ServidorRest {
     }
     print(pojoId.id);
   }
-
 
   //Get a List of the user's notices.
   Future<List<NoticeModel>> checkNotices() async{
@@ -178,8 +172,6 @@ class ServidorRest {
     return notices;
   }
 
-
-  //TODO: Deberia devolver un solo objeto, por eso existe el return dentro del for(), checkear
   Future<NoticeModel> getNoticeById(String id) async{
     String endpoint = "/notice/get";
     String params = "?id="+id;
@@ -192,11 +184,9 @@ class ServidorRest {
       throw new Exception("No se pudo conectar.");
     }
 
-    var jsonData = json.decode(response.body);
-    for (var n in jsonData){
-      NoticeModel notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
-      return notice;
-    }
+    var n = json.decode(response.body);
+    NoticeModel notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+    return notice;
   }
 
 
@@ -216,8 +206,6 @@ class ServidorRest {
     return true;
   }
 
-
-
   Future<void> modifyUser(VUser user) async{
     String endpoint = "/user/modify";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(user));
@@ -229,7 +217,6 @@ class ServidorRest {
     }
     print("Modificado el usuario "+user.email);
   }
-
 
   Future<void> modifyMyUser(VUser user) async{
     String endpoint = "/user/modifyMyUser";
@@ -243,7 +230,6 @@ class ServidorRest {
     print("Modificado el usuario "+user.email);
   }
 
-
   Future<void> setToken(String token) async{
     String endpoint = "/user/setToken";
     String params = "?token=" + token;
@@ -256,7 +242,6 @@ class ServidorRest {
       throw new Exception("No se pudo conectar.");
     }
   }
-
 
   Future<List<PojoUser>> getUsers() async {
     String endpoint = "/user/allUsers";
@@ -277,7 +262,6 @@ class ServidorRest {
     return users;
   }
 
-
   Future<List<PojoUser>> getUsersByType(String type) async {
     String endpoint = "/user/allUsersByType";
     String params = "?type=" + type;
@@ -297,7 +281,6 @@ class ServidorRest {
     return users;
   }
 
-
   Future<void> setTypeToUser(String mail,String type) async{
     String endpoint = "/user/setType";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(<String,String>{
@@ -313,7 +296,6 @@ class ServidorRest {
     print("Tipo de Usuario "+type+" asignado al usuario "+mail+".");
   }
 
-
   Future<void> removeTypeToUser(String mail,String type) async{
     String endpoint = "/user/removeType";
     var response = await client.post(IpServer + ":" + Port + endpoint, body: jsonEncode(<String,String>{
@@ -328,7 +310,6 @@ class ServidorRest {
     }
     print("Tipo de Usuario "+type+" removido del usuario "+mail+".");
   }
-
 
   /**
    * UserType api calls
@@ -364,7 +345,6 @@ class ServidorRest {
     return types;
   }
 
-
   //Se pide code y description, ambos strings. Encuentra el code y le asigna el nuevo description.
   Future<void> modifyUserType(PojoUserType type) async{
     String endpoint = "/types/modify";
@@ -377,7 +357,6 @@ class ServidorRest {
     }
     print("Tipo de usuario modificado con éxito.");
   }
-
 
   Future<void> deactivateUserType(String code) async{
     String endpoint = "/types/deactivate";
@@ -392,8 +371,6 @@ class ServidorRest {
     print("Tipo de usuario desactivado con éxito.");
   }
 
-
-  //TODO: una vez mas comprobar si trae un solo objeto.
   Future<PojoUser> getUserByMail(String mail) async{
     String endpoint = "/user/getUserByMail";
     String params = "?mail="+mail;
@@ -404,10 +381,9 @@ class ServidorRest {
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
-    var jsonData = json.decode(response.body);
-    for(var n in jsonData){
-      PojoUser user = new PojoUser(n["mail"],n["fullName"]);
-      return user;
-    }
+    var n = json.decode(response.body);
+    PojoUser user = new PojoUser(n["mail"],n["fullName"]);
+    return user;
   }
+
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
@@ -25,7 +26,7 @@ Future<bool> signIn(int type, BuildContext context, [String email, String passwo
       canLogIn = await signInWithGoogle();
       break;
     case LOGIN_TYPE_FACEBOOK:
-      print('Sing In With Facebook');
+      canLogIn = await signInWithFacebook();
       break;
     case LOGIN_TYPE_NORMAL:
       canLogIn = await signInBasic(email, password);
@@ -59,6 +60,7 @@ Future<bool> signInSilently() async{
       case LOGIN_TYPE_GOOGLE:
         return await signInWithGoogle(true);
       case LOGIN_TYPE_FACEBOOK:
+        //return await signInWithFacebook();
         break;
       case LOGIN_TYPE_NORMAL:
         return await signInBasicSiently();
@@ -96,6 +98,21 @@ Future<bool> signInWithGoogle([bool siently = false]) async {
 
 Future<bool> signOutGoogle() async{
   await _googleSignIn.signOut();
+}
+
+/**
+ * Facebook Sign In
+ */
+
+Future<bool> signInWithFacebook() async {
+  LoginResult result = await FacebookAuth.instance.login();
+
+  print(result.status);
+
+  if(result.status != 200){
+    return false;
+  }
+  return true;
 }
 
 /**
