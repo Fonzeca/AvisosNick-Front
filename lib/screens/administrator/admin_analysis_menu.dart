@@ -46,7 +46,7 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
         EasyLoading.showError(e.toString());
       });
 
-    }else EasyLoading.showError("error");
+    }
   }
 
   Widget _buildListOfNotices(List<NoticeModel> notices) {
@@ -72,6 +72,8 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
         trailing: FlatButton(
           minWidth: 0,
           onPressed: () {
+            print(Text("id del pojo"));
+            print(pojo.id);
             _viewReaders(pojo.id);
           },
           child: Icon(Icons.visibility),
@@ -84,29 +86,28 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
     showDialog(context: context,
         builder: (_) =>
         new AlertDialog(
+
           title: Text("Lista de usuarios notificados"),
           content: _listOfReaders(id),
         )
     );
   }
 
-  
-Widget _listOfReaders(String id) {
+
+  Widget _listOfReaders(String id) {
+    if(lectores == null){
     EasyLoading.show();
-  if(lectores == null){
-    PojoId pojoId =PojoId(id);
-    _servidorRest.getNoticeReaders(pojoId).then((value){
-      setState(() {
-        lectores=value;
+      PojoId pojoId = PojoId(id);
+      _servidorRest.getNoticeReaders(pojoId).then((value){
+        setState(() {
+          lectores=value;
+        });
+        EasyLoading.dismiss();
       });
-      EasyLoading.dismiss();
-    }).catchError((e){
-      EasyLoading.showError(e.toString() );
-    });
 
 
-  }
-  return _buildListOfReaders(lectores);
+    }
+    return _buildListOfReaders(lectores);
   }
 
 Widget _buildListOfReaders (List<String> lectores) {
@@ -116,15 +117,20 @@ Widget _buildListOfReaders (List<String> lectores) {
         textAlign: TextAlign.center);
   }
 
-  return ListView.builder(
-      itemCount: lectores.length,
-      itemBuilder: (BuildContext context, index){
-        return _readerListItem(lectores[index]);
-      },
+  return Container(
+    height: 150,
+    width: 150,
+    child: ListView.builder(
+        itemCount: lectores.length,
+        itemBuilder: (BuildContext context, index){
+          return _readerListItem(lectores[index]);
+        },
+    ),
   );
 }
 
 Widget _readerListItem(String pojo){
+    lectores.clear();
     return Card(
       child: ListTile(
         title: Text(pojo),

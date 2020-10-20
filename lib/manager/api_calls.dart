@@ -126,6 +126,7 @@ class ServidorRest {
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
+
     var jsonData = json.decode(response.body);
     List<String> readers= [];
     for(var n in jsonData){
@@ -149,7 +150,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["_id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
       notices.add(notice);
     }
     return notices;
@@ -171,7 +172,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices = [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["_id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
       notices.add(notice);
     }
     return notices;
@@ -190,7 +191,7 @@ class ServidorRest {
     }
 
     var n = json.decode(response.body);
-    NoticeModel notice= new NoticeModel(n["_id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
     return notice;
   }
 
