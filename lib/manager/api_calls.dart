@@ -126,7 +126,12 @@ class ServidorRest {
     if(response.statusCode != 200){
       throw new Exception("No se pudo conectar.");
     }
-    print(pojoId.id);
+    var jsonData = json.decode(response.body);
+    List<String> readers= [];
+    for(var n in jsonData){
+      readers.add(n);
+    }
+    return readers;
   }
 
   //Get a List of the user's notices.

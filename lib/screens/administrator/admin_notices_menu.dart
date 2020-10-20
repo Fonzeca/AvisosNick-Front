@@ -32,11 +32,11 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Text("Lista de noticias"),
-              Text("Crear una noticia"),
+              Text("Lista de avisos"),
+              Text("Crear un aviso"),
             ],
           ),
-          title: Text("Menu de usuarios"),
+          title: Text("Avisos"),
         ),
         body: TabBarView(
           children: [
@@ -69,7 +69,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
    * Lista de noticias
    */
   Widget _listNoticesScreen() {
-    return Text("No hay noticias");
+    return Text("No se encontraron avisos.", style: TextStyle(fontSize: 24),
+        textAlign: TextAlign.center);
   }
 
   /**

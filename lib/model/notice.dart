@@ -11,6 +11,16 @@ class NoticeModel {
   NoticeModel (this.id, this.title, this.description, this.author, this.creationDate,
       this.mails, this.send);
 
+  Map<String, dynamic> toJson() =>{
+    'id' : id,
+    'title' : title,
+    'description' : description,
+    'author' : author,
+    'creationDate' : creationDate,
+    'mails' : mails,
+    'send' : send
+  };
+
 }
 class PojoCreateNotice {
 
@@ -27,6 +37,11 @@ class PojoId{
   final String id;
 
   PojoId(this.id);
+
+  Map<String, dynamic> toJson() =>{
+    'id' : id
+  };
+
 }
 
 class PojoModifyNotice{

@@ -175,7 +175,13 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
       child: ListTile(
         title: Text(pojo.code),
         subtitle: Text(pojo.description),
-        onLongPress: () => _deleteType(pojo.code),
+        trailing: FlatButton(
+          minWidth: 0,
+          onPressed: () {
+            _deleteType(pojo.code);
+          },
+          child: Icon(Icons.delete),
+        ),
       ),
     );
   }

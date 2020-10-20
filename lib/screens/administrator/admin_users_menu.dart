@@ -79,7 +79,8 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
    */
   Widget _listaUsuariosScreen(){
     if(users == null || users.isEmpty){
-      return Text("No hay usuarios");
+      return Text("No se encontraron usuarios.", style: TextStyle(fontSize: 24),
+          textAlign: TextAlign.center);
     }
 
     return ListView.builder(
@@ -114,6 +115,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
           FlatButton(
             onPressed:() {
               //TODO: Hacer la funcionalidad para desactivar un usuario.
+              _deactivateUser(code);
               Navigator.of(context).pop();
             },
             child: Text("Aceptar")),
@@ -125,6 +127,10 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
         ],
       )
     );
+  }
+
+  void _deactivateUser(String code){
+
   }
 
   /**
