@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
+import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
 import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -23,11 +24,15 @@ class ServidorRest {
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
     print("Login Basic/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
+    //Praseamos el json al object
+    Map pojoMap = jsonDecode(response.body);
+    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
+
     if(response.statusCode != 200){
       return false;
     }
 
-    MindiaHttpClient.setToken(response.body, LOGIN_TYPE_NORMAL);
+    MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_NORMAL);
     return true;
   }
 
@@ -37,10 +42,33 @@ class ServidorRest {
 
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
     print("Login Google/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
+    //Praseamos el json al object
+    Map pojoMap = jsonDecode(response.body);
+    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
+
     if(response.statusCode != 200){
       return false;
     }
-    MindiaHttpClient.setToken(response.body, LOGIN_TYPE_GOOGLE);
+    MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_GOOGLE);
+    return true;
+  }
+
+  Future<bool> loginWithFacebook(String idTokenOAuth) async {
+    String endpoint = "/loginWithFacebook";
+    String requestParam = "?idToken=" + idTokenOAuth;
+
+    var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
+    print("Login Facebook/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
+    //Praseamos el json al object
+    Map pojoMap = jsonDecode(response.body);
+    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
+
+    if(response.statusCode != 200){
+      return false;
+    }
+    MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_FACEBOOK);
     return true;
   }
 

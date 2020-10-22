@@ -13,6 +13,11 @@ final Color nickAccentColor = Color(0xff40a7ae);
 final String ROLE_USER = "ROLE_USER";
 final String ROLE_ADMIN = "ROLE_ADMIN";
 
+
+final String keyRolesUsuarios = "roles_user";
+final String keyPojoUser = "pojoLogin";
+final String keySaveLoginType = "loginType";
+
 //NoticeList
 final fTitleNoticeList = TextStyle(
     fontWeight: FontWeight.bold,

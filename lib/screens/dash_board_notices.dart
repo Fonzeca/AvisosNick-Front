@@ -21,8 +21,10 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   ServidorRest _rest = ServidorRest();
   List<NoticeModel> noticiasOP = null;
 
-  @override
-  Widget build(BuildContext context) {
+  bool muestraAdministracion = false;
+
+
+  void init(){
     if(noticiasOP == null){
       EasyLoading.show();
       _rest.checkNotices().then((value){
@@ -34,6 +36,22 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
         EasyLoading.dismiss();
       });
     }
+
+    obtenerLogInActual().then((value){
+      if(value != null){
+
+        if(value.roles.contains("ROLE_ADMIN")){
+          muestraAdministracion = true;
+        }
+
+      }
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    init();
 
     return Scaffold(
       appBar: AppBar(
@@ -101,6 +119,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
               },
             ),
+            muestraAdministracion ?
             ListTile(
               title: Text("Administración"),
               leading: Icon(Icons.format_list_bulleted,color: nickAccentColor),
@@ -108,7 +127,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
                 Navigator.pop(context);
                 Navigator.of(context).pushNamed('/administrator');
               },
-            ),
+            ) : SizedBox(),
             ListTile(
               title: Text("Salir"),
               leading: Icon(Icons.exit_to_app,color: nickAccentColor),

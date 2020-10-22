@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
+import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +15,6 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "944140954391-iuoilfj8
 final ServidorRest _servidorRest = ServidorRest();
 final FirebaseMessaging _messaging = FirebaseMessaging();
 
-final String _keySaveLoginType = "loginType";
 final String _keyEmail = "email";
 final String _keyPassword = "password";
 
@@ -34,11 +36,6 @@ Future<bool> signIn(int type, BuildContext context, [String email, String passwo
   }
   if(canLogIn){
     _messaging.getToken().then((value) => _servidorRest.setToken(value));
-
-    //Guardamos el tipo de inicio de sesion
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_keySaveLoginType, type);
-
     Navigator.pushReplacementNamed(context, '/dashBoard');
   }
   return canLogIn;
@@ -50,7 +47,7 @@ Future<bool> signInSilently() async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   int type;
   try{
-    type = prefs.getInt(_keySaveLoginType);
+    type = prefs.getInt(keySaveLoginType);
   }catch(e){
   }
 
@@ -72,10 +69,10 @@ Future<bool> signInSilently() async{
 
 Future<bool> signOut(BuildContext context) async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove(_keySaveLoginType);
+  prefs.remove(keySaveLoginType);
   prefs.remove(_keyEmail);
   prefs.remove(_keyPassword);
-  prefs.remove(MindiaHttpClient.keyTokenPref);
+  prefs.remove(keyPojoUser);
   await _googleSignIn.signOut();
 
   Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
@@ -136,6 +133,22 @@ Future<bool> signInBasicSiently() async{
   String password = prefs.getString(_keyPassword);
 
   return await _servidorRest.login(email, password);
+}
+
+/**
+ * Otros
+ */
+
+Future<PojoLogIn> obtenerLogInActual() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String pojoString =  prefs.getString(keyPojoUser);
+
+  if(pojoString == null || pojoString.isEmpty){
+    return null;
+  }
+  PojoLogIn pojoLogIn = PojoLogIn.fromJson(jsonDecode(pojoString));
+
+  return pojoLogIn;
 }
 
 
