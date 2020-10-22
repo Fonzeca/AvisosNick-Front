@@ -112,13 +112,13 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              title: Text("Recibos"),
-              leading: Icon(Icons.assignment,color: nickAccentColor),
-              onTap: (){
-
-              },
-            ),
+//            ListTile(
+//              title: Text("Recibos"),
+//              leading: Icon(Icons.assignment,color: nickAccentColor),
+//              onTap: (){
+//
+//              },
+//            ),
             muestraAdministracion ?
             ListTile(
               title: Text("Administración"),

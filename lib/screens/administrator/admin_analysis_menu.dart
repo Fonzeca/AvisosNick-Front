@@ -14,7 +14,6 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
   ServidorRest _servidorRest = ServidorRest();
 
   List<NoticeModel> avisos = null;
-  List<String> lectores = null;
 
 
   @override
@@ -28,7 +27,6 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
         height: double.infinity,
         width: double.infinity,
         child: _buildListOfNotices(avisos),
-
       ),
     );
   }
@@ -72,9 +70,9 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
         trailing: FlatButton(
           minWidth: 0,
           onPressed: () {
-            print(Text("id del pojo"));
+            print("id del pojo");
             print(pojo.id);
-            _viewReaders(pojo.id);
+            _callReaders(pojo.id);
           },
           child: Icon(Icons.visibility),
         ),
@@ -82,32 +80,24 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
     );
   }
 
-  void _viewReaders(String id) {
+  void _viewReaders(List<String> lectores) {
     showDialog(context: context,
         builder: (_) =>
         new AlertDialog(
-
           title: Text("Lista de usuarios notificados"),
-          content: _listOfReaders(id),
+          content: _buildListOfReaders(lectores),
         )
     );
   }
 
 
-  Widget _listOfReaders(String id) {
-    if(lectores == null){
+  void _callReaders(String id) {
     EasyLoading.show();
-      PojoId pojoId = PojoId(id);
-      _servidorRest.getNoticeReaders(pojoId).then((value){
-        setState(() {
-          lectores=value;
-        });
-        EasyLoading.dismiss();
-      });
-
-
-    }
-    return _buildListOfReaders(lectores);
+    PojoId pojoId = PojoId(id);
+    _servidorRest.getNoticeReaders(pojoId).then((value){
+      _viewReaders(value);
+      EasyLoading.dismiss();
+    });
   }
 
 Widget _buildListOfReaders (List<String> lectores) {
@@ -118,7 +108,7 @@ Widget _buildListOfReaders (List<String> lectores) {
   }
 
   return Container(
-    height: 150,
+    height: 300,
     width: 150,
     child: ListView.builder(
         itemCount: lectores.length,
@@ -130,7 +120,6 @@ Widget _buildListOfReaders (List<String> lectores) {
 }
 
 Widget _readerListItem(String pojo){
-    lectores.clear();
     return Card(
       child: ListTile(
         title: Text(pojo),
