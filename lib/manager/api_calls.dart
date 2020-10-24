@@ -104,6 +104,10 @@ class ServidorRest {
     print("createNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Noticia creada con éxito.");
@@ -116,6 +120,10 @@ class ServidorRest {
     print("markNoticeAsRead/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print(pojoId.id);
@@ -128,6 +136,10 @@ class ServidorRest {
     print("deactivateNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print(pojoId.id);
@@ -140,6 +152,10 @@ class ServidorRest {
     print("modifyNotice/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print(pojoModifyNotice.title);
@@ -152,6 +168,10 @@ class ServidorRest {
     print("getNoticeReaders/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
 
@@ -172,6 +192,10 @@ class ServidorRest {
     print("checkNotices/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
 
@@ -194,6 +218,10 @@ class ServidorRest {
     print("getAllNotices/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
 
@@ -215,6 +243,10 @@ class ServidorRest {
     print("getNoticeById/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
 
@@ -235,6 +267,10 @@ class ServidorRest {
     print("createUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     return true;
@@ -247,6 +283,10 @@ class ServidorRest {
     print("modifyUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Modificado el usuario "+user.email);
@@ -259,6 +299,10 @@ class ServidorRest {
     print("modifyMyUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Modificado el usuario "+user.email);
@@ -273,6 +317,10 @@ class ServidorRest {
     print("setToken/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
   }
@@ -284,6 +332,10 @@ class ServidorRest {
     print("getUsers/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     var jsonData = json.decode(response.body);
@@ -304,6 +356,10 @@ class ServidorRest {
     print("getUsersByType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     var jsonData = json.decode(response.body);
@@ -325,6 +381,10 @@ class ServidorRest {
     print("setTypeToUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Tipo de Usuario "+type+" asignado al usuario "+mail+".");
@@ -340,6 +400,10 @@ class ServidorRest {
     print("removeTypeToUser/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Tipo de Usuario "+type+" removido del usuario "+mail+".");
@@ -353,6 +417,10 @@ class ServidorRest {
     print("getUserByMail/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        return await getUserByMail(mail);
+      }
       throw new Exception("No se pudo conectar.");
     }
     var n = json.decode(response.body);
@@ -372,6 +440,10 @@ class ServidorRest {
     print("createUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     return true;
@@ -384,6 +456,10 @@ class ServidorRest {
     print("getAllUserTypes/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     var jsonData = json.decode(response.body);
@@ -403,6 +479,10 @@ class ServidorRest {
     print("modifyUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+        
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Tipo de usuario modificado con éxito.");
@@ -416,6 +496,10 @@ class ServidorRest {
     print("deactivateUserType/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
     if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+
+      }
       throw new Exception("No se pudo conectar.");
     }
     print("Tipo de usuario desactivado con éxito.");

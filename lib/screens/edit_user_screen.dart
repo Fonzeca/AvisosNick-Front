@@ -18,13 +18,16 @@ class _EditUserState extends State<EditUser> {
   final bool isAdmin;
 
   String appBarText;
-  String emailUser;
+  bool saveButtonEnabled = true;
+  List<String> userTypesAvailable;
+  String userTypeCreateUser;
 
   VUser vuser;
 
+  String emailUser;
   String fullNameUser;
-
   List<String> userType;
+
 
   _EditUserState(this.isAdmin);
 
@@ -46,7 +49,20 @@ class _EditUserState extends State<EditUser> {
       });
     }
 
-    if(emailUser != null && emailUser.isNotEmpty && vuser != null){
+    if(isAdmin && userTypesAvailable == null){
+      _servidorRest.getAllUserTypes().then((value){
+        setState(() {
+          userTypesAvailable = List<String>();
+          value.map((e) => userTypesAvailable.add(e.code)).toList();
+        });
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
+      });
+    }
+
+    if(emailUser != null && emailUser.isNotEmpty &&
+        vuser != null &&
+        (!isAdmin || userTypesAvailable != null)){
       fullNameUser = vuser.fullName;
       userType = vuser.userType;
       EasyLoading.dismiss();
@@ -74,7 +90,14 @@ class _EditUserState extends State<EditUser> {
           children: [
             _createInputText("Email", Icons.email, false, emailUser, null),
             _createInputText("Nombre completo", Icons.person, true, fullNameUser, setMail),
-            _createListGridView(userType)
+            _createDropBoxSelector(userTypesAvailable),
+            Container(
+              child: Text("Tipos de usuario:", style: TextStyle(fontSize: 17, color: Colors.black87),),
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.symmetric(vertical: 7),
+            ),
+            _createListGridView(userType),
+            _buildButtonSave(null)
           ],
         ),
       ),
@@ -105,64 +128,106 @@ class _EditUserState extends State<EditUser> {
       return Text("No hay registro",style: TextStyle(color: Colors.red),);
     }
 
-    return Column(
-      children: [
-        Container(
-          child: Text("Tipos de usuario:", style: TextStyle(fontSize: 17, color: Colors.black87),),
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.symmetric(vertical: 7),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black38
         ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black38
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(4)),
-          ),
-          height: 200,
-          width: double.infinity,
-          child: GridView.builder(
-            physics: ScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 0.35,
-            ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    items[0],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  visualDensity: VisualDensity.compact,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  trailing: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        items.remove(items[index]);
-                      });
-                    },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    )
-                  ),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+      ),
+      height: 200,
+      width: double.infinity,
+      child: GridView.builder(
+        physics: ScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 0.35,
+        ),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              title: Text(
+                items[0],
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.symmetric(horizontal: 8),
+              trailing: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    items.remove(items[index]);
+                  });
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 20,
+                )
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
+  Widget _buildButtonSave(Function function){
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
+      width: double.infinity,
+      child: RaisedButton(
+          onPressed: () {
+            if(saveButtonEnabled){
+              saveButtonEnabled = false;
+              function();
+            }
+          },
+          elevation: 5.0,
+          padding: EdgeInsets.all(15.0),
+          color: Theme.of(context).accentColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Text(
+            "GUARDAR",
+            style: TextStyle(
+              color: Colors.white,
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+      ),
+    );
+  }
+
+  Widget _createDropBoxSelector(List<String> items){
+    if(items == null || items.isEmpty){
+      return Text("No hay registros...", style: TextStyle(color: Colors.red),);
+    }
+
+    List<DropdownMenuItem<String>> itemsDropDown = items.map((e) => DropdownMenuItem<String>(child: Text(e), value: e,)).toList();
+
+    if(userTypeCreateUser == null || userTypeCreateUser.isEmpty)
+      userTypeCreateUser = itemsDropDown[0].value;
+
+    return DropdownButton(
+      value: userTypeCreateUser,
+      items: itemsDropDown,
+      onChanged: (Object value) {
+        print(value);
+        setState((){
+          userTypeCreateUser = value;
+        });
+      },
+    );
+  }
 
   void setMail(String newValue){
 
