@@ -345,6 +345,22 @@ class ServidorRest {
     print("Tipo de Usuario "+type+" removido del usuario "+mail+".");
   }
 
+  Future<VUser> getUserByMail(String mail) async{
+    String endpoint = "/user/getUserByMail";
+    String params = "?mail="+mail;
+    var response = await client.get(IpServer + ":" + Port + endpoint+ params);
+
+    print("getUserByMail/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
+    if(response.statusCode != 200){
+      throw new Exception("No se pudo conectar.");
+    }
+    var n = json.decode(response.body);
+    VUser user = VUser.fromJson(n);
+    return user;
+  }
+
+
   /**
    * UserType api calls
    */
@@ -404,20 +420,4 @@ class ServidorRest {
     }
     print("Tipo de usuario desactivado con éxito.");
   }
-
-  Future<PojoUser> getUserByMail(String mail) async{
-    String endpoint = "/user/getUserByMail";
-    String params = "?mail="+mail;
-    var response = await client.get(IpServer + ":" + Port + endpoint+ params);
-
-    print("getUserByMail/ Status: " + response.statusCode.toString() + " Body: " + response.body);
-
-    if(response.statusCode != 200){
-      throw new Exception("No se pudo conectar.");
-    }
-    var n = json.decode(response.body);
-    PojoUser user = new PojoUser(n["mail"],n["fullName"]);
-    return user;
-  }
-
 }

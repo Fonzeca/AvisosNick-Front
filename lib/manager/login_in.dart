@@ -19,6 +19,7 @@ final String _keyEmail = "email";
 final String _keyPassword = "password";
 
 
+
 /// Funcion única para intentar loguearse con los 3 tipos de proveedores.
 Future<bool> signIn(int type, BuildContext context, [String email, String password]) async {
   bool canLogIn = false;

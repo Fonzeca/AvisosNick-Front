@@ -16,7 +16,14 @@ class VUser{
     'userType' : userType
   };
 
+  VUser.fromJson(Map<String, dynamic> json):
+        email = json['email'],
+        password = "",
+        fullName = json['fullName'],
+        roles = List<String>.from(json['roles']),
+        userType = List<String>.from(json['userType']);
 }
+
 class PojoUser{
   final String email;
   final String fullName;

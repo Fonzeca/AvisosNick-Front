@@ -10,6 +10,7 @@ import 'package:nick_tecnologia_notices/screens/administrator/admin_userTypes_me
 import 'package:nick_tecnologia_notices/screens/administrator/admin_users_menu.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/administrator_menu.dart';
 import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
+import 'package:nick_tecnologia_notices/screens/edit_user_screen.dart';
 import 'package:nick_tecnologia_notices/screens/login_screen_v3.dart';
 import 'package:nick_tecnologia_notices/screens/notice.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -82,7 +83,9 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/dashBoard' : (BuildContext context) => new DashBoardNotices(),
         '/administrator' : (BuildContext context) => new AdministratorMenu(),
+        '/myAccount' : (BuildContext context) => new EditUser(false),
         '/administrator/usuarios' : (BuildContext context) => new AdminMenuUsuarios(),
+        '/administrator/usuarios/editUser' : (BuildContext context) => new EditUser(true),
         '/administrator/userTypes' : (BuildContext context) => new AdminUserTypeMenu(),
         '/administrator/notices' : (BuildContext context) => new AdminNoticeMenu(),
         '/administrator/analysis' : (BuildContext context) => new AdminAnalysisMenu(),

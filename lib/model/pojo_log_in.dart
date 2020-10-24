@@ -22,7 +22,7 @@ class PojoLogIn {
 
   Map<String, dynamic> toJson()=>{
     'token' : token,
-    'email' : mail,
+    'mail' : mail,
     'fullName' : fullName,
     'roles' : roles,
     'userType' : userType

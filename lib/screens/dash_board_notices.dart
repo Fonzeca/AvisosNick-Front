@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
+import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
 
@@ -22,31 +23,38 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   List<NoticeModel> noticiasOP = null;
 
   bool muestraAdministracion = false;
-
+  PojoLogIn objectSignIn;
 
   void init(){
+    EasyLoading.show();
     if(noticiasOP == null){
-      EasyLoading.show();
       _rest.checkNotices().then((value){
-        EasyLoading.dismiss();
         setState((){
           noticiasOP = value;
         });
       }).catchError((e){
-        EasyLoading.dismiss();
+        EasyLoading.showError(e.toString());
       });
     }
 
-    obtenerLogInActual().then((value){
-      if(value != null){
+    if(objectSignIn  == null){
+      obtenerLogInActual().then((value){
+        setState(() {
+          print(objectSignIn);
+          objectSignIn = value;
+        });
+      });
+    }
 
-        if(value.roles.contains("ROLE_ADMIN")){
-          muestraAdministracion = true;
-        }
-
+    if(objectSignIn != null){
+      if(objectSignIn.roles.contains("ROLE_ADMIN")){
+        muestraAdministracion = true;
       }
-    });
+    }
 
+    if(objectSignIn  != null && noticiasOP != null){
+      EasyLoading.dismiss();
+    }
   }
 
   @override
@@ -58,6 +66,11 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
         title: Text("Avisos"),
         actions: <Widget>[
           PopupMenuButton<String>(
+            onSelected: (value) {
+              if(value == itemsPopMenuBar[0]){
+                Navigator.of(context).pushNamed("/myAccount", arguments: objectSignIn.mail);
+              }
+            },
             itemBuilder: (BuildContext context){
               return itemsPopMenuBar.map((String choice){
                 return PopupMenuItem<String>(
