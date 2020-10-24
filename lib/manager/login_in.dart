@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
@@ -17,6 +18,7 @@ final FirebaseMessaging _messaging = FirebaseMessaging();
 
 final String _keyEmail = "email";
 final String _keyPassword = "password";
+
 
 
 /// Funcion única para intentar loguearse con los 3 tipos de proveedores.
@@ -124,6 +126,7 @@ Future<bool> signInBasic(String email, String password) async{
 
     return true;
   }
+  EasyLoading.showToast("Usuario o contraseña inválidos");
   return false;
 }
 
