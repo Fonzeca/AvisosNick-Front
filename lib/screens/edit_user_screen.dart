@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/user.dart';
@@ -23,6 +24,8 @@ class _EditUserState extends State<EditUser> {
 
   String fullNameUser;
 
+  List<String> userType;
+
   _EditUserState(this.isAdmin);
 
   void init(BuildContext context) {
@@ -45,7 +48,7 @@ class _EditUserState extends State<EditUser> {
 
     if(emailUser != null && emailUser.isNotEmpty && vuser != null){
       fullNameUser = vuser.fullName;
-
+      userType = vuser.userType;
       EasyLoading.dismiss();
     }
   }
@@ -71,7 +74,7 @@ class _EditUserState extends State<EditUser> {
           children: [
             _createInputText("Email", Icons.email, false, emailUser, null),
             _createInputText("Nombre completo", Icons.person, true, fullNameUser, setMail),
-            _createListGridView()
+            _createListGridView(userType)
           ],
         ),
       ),
@@ -97,19 +100,66 @@ class _EditUserState extends State<EditUser> {
     );
   }
 
-  Widget _createListGridView(){
-    return Container(
-      height: 200,
-      width: double.infinity,
-      child: GridView.count(
-        scrollDirection: Axis.horizontal,
-        crossAxisCount: 4,
-        children: [
-          Center(child: Text("asd",style: TextStyle(backgroundColor: Colors.grey),)),
-          Center(child: Text("asd",style: TextStyle(backgroundColor: Colors.grey),)),
+  Widget _createListGridView(List<String> items){
+    if(items == null){
+      return Text("No hay registro",style: TextStyle(color: Colors.red),);
+    }
 
-        ],
-      ),
+    return Column(
+      children: [
+        Container(
+          child: Text("Tipos de usuario:", style: TextStyle(fontSize: 17, color: Colors.black87),),
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.symmetric(vertical: 7),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black38
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
+          height: 200,
+          width: double.infinity,
+          child: GridView.builder(
+            physics: ScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 0.35,
+            ),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: ListTile(
+                  title: Text(
+                    items[0],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  visualDensity: VisualDensity.compact,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                  trailing: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        items.remove(items[index]);
+                      });
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      size: 20,
+                    )
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
