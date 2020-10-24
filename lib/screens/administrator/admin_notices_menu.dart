@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,6 +26,9 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
   bool checkSendNotification_createNotice = false;
   bool saveButtonEnabled = true;
+  Map<String,String> additionalProp = Map<String,String>();
+  MapEntry<String,String> newEntries = MapEntry<String,String>("click_action", "FLUTTER_NOTIFICATION_CLICK");
+
 
   @override
   Widget build(BuildContext context) {
@@ -208,8 +213,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       child: RaisedButton(
           onPressed: () {
             if (saveButtonEnabled) {
-              saveButtonEnabled = false;
               guardarNotice();
+              saveButtonEnabled = false;
             }
           },
           elevation: 5.0,
@@ -259,8 +264,20 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
   void guardarNotice() {
     EasyLoading.show();
-    //Call newNotice with the MAp String String
+    //TODO: mejorar para cuando haya mas de un tipo de usuario.
+    List<String> types= new List(1);
+    types[0]=userTypeCreateUser;
+    additionalProp.putIfAbsent("click_action", () => "FLUTTER_NOTIFICATION_CLICK");
 
+    PojoData data = PojoData(additionalProp);
+    PojoCreateNotice pojoCreateNotice = PojoCreateNotice(types,null,checkSendNotification_createNotice,
+      title_createNotice,message_createNotice,data);
+    _servidorRest.createNotice(pojoCreateNotice).then((value){
+      EasyLoading.showSuccess("Aviso creado con éxito.");
+
+    }).catchError((e){
+      EasyLoading.showError(e.toString(), duration: Duration(seconds: 3));
+    });
 
 
   }

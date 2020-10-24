@@ -26,20 +26,37 @@ class NoticeModel {
 }
 class PojoCreateNotice {
 
+  final List<String> types;
   final List<String> mails;
   final bool sendNotification;
   final String title;
   final String description;
   final PojoData data;
 
-  PojoCreateNotice(
+  PojoCreateNotice(this.types,
       this.mails, this.sendNotification, this.title, this.description, this.data);
+
+  Map<String, dynamic> toJson() =>{
+    'types' : types,
+    'mails' : mails,
+    'sendNotification' : sendNotification,
+    'title' : title,
+    'description' : description,
+    'data' : data
+
+  };
 }
 
 class PojoData{
   final Map<String, Object> additionalProperties;
 
+
   PojoData(this.additionalProperties);
+
+
+  Map<String, dynamic> toJson() =>{
+    'additionalProperties' : additionalProperties
+  };
 }
 
 class PojoId{
