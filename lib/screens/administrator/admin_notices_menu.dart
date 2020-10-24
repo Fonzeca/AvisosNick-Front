@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
+import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
 
 class AdminNoticeMenu extends StatefulWidget{
@@ -14,6 +15,7 @@ class AdminNoticeMenu extends StatefulWidget{
 class AdminNoticeMenuState extends State<AdminNoticeMenu> {
   ServidorRest _servidorRest = ServidorRest();
   List<PojoUserType> tiposDeUsuario = null;
+  List<NoticeModel> avisos = null;
 
 
   String title_createNotice = "";
@@ -50,6 +52,15 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
   void init() {
     EasyLoading.show();
+    if(avisos == null){
+      _servidorRest.getAllNotices().then((value) => {
+        setState((){
+          avisos = value;
+        })
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
+      });
+    }
     if(tiposDeUsuario == null){
       _servidorRest.getAllUserTypes().then((value) => {
         setState((){
@@ -60,7 +71,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       });
     }
 
-    if(tiposDeUsuario != null){
+    if(tiposDeUsuario != null||avisos != null ){
+
       EasyLoading.dismiss();
     }
   }
@@ -69,8 +81,61 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
    * Lista de noticias
    */
   Widget _listNoticesScreen() {
-    return Text("No se encontraron avisos.", style: TextStyle(fontSize: 24),
-        textAlign: TextAlign.center);
+    if(avisos==null||avisos.isEmpty){
+
+      return Text("No se encontraron avisos.", style: TextStyle(fontSize: 24),
+          textAlign: TextAlign.center);
+    }
+    return ListView.builder(
+      itemCount: avisos.length,
+        itemBuilder:(BuildContext context, index){
+        return _noticeListItem(avisos[index]);
+    },
+    );
+
+  }
+
+  Widget  _noticeListItem(NoticeModel pojo){
+    return Card(
+      child: ListTile(
+        isThreeLine: true,
+        title: Text(pojo.title),
+        subtitle: Text(pojo.description),
+        trailing: FlatButton(
+          minWidth: 0,
+          onPressed: (){
+            _fullNotice(pojo);
+          },
+          child: Icon(Icons.visibility),
+        ),
+      ),
+    );
+  }
+
+  Widget _fullNotice(NoticeModel pojo){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(pojo.title),
+
+      ),
+      body: Center(
+        child: Text.rich(
+          TextSpan(
+            text: pojo.description,
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Creado: '+pojo.creationDate,
+
+              ),
+              TextSpan(
+                text: 'Por: '+pojo.author,
+
+              )
+            ]
+          )
+        ),
+      ),
+    );
   }
 
   /**
