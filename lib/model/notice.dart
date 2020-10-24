@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class NoticeModel {
   final String id;
   final String title;
@@ -28,9 +30,16 @@ class PojoCreateNotice {
   final bool sendNotification;
   final String title;
   final String description;
+  final PojoData data;
 
   PojoCreateNotice(
-      this.mails, this.sendNotification, this.title, this.description);
+      this.mails, this.sendNotification, this.title, this.description, this.data);
+}
+
+class PojoData{
+  final Map<String, Object> additionalProperties;
+
+  PojoData(this.additionalProperties);
 }
 
 class PojoId{

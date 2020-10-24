@@ -194,6 +194,7 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
   void guardarNotice() {
     EasyLoading.show();
+    //Call newNotice with the MAp String String
 
 
 
