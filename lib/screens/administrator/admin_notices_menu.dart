@@ -92,6 +92,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       return Text("No se encontraron avisos.", style: TextStyle(fontSize: 24),
           textAlign: TextAlign.center);
     }
+
+
     return ListView.builder(
       itemCount: avisos.length,
         itemBuilder:(BuildContext context, index){
@@ -110,6 +112,7 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
         trailing: FlatButton(
           minWidth: 0,
           onPressed: (){
+            print(pojo.mails);
             Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(pojo.title,pojo.description,pojo.author,pojo.creationDate,true,pojo.mails ),));
           },
           child: Icon(Icons.visibility),

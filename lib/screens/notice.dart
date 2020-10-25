@@ -72,11 +72,13 @@ class NoticeStateAdmin extends State<Notice>{
                         Divider(),
                         Expanded(
                           flex: 2,
-                          child: Column(
-                              children: <Widget>[
-                                Row(
+                            child:SingleChildScrollView(
+                              child:
+                              Column(
                                   children: <Widget>[
-                                    Text("Fecha de creación: "),
+                                    Row(
+                                      children: <Widget>[
+                                        Text("Fecha de creación: "),
                                     Text(fecha)
                                   ],
                                 ),
@@ -94,7 +96,7 @@ class NoticeStateAdmin extends State<Notice>{
                                     _listUsuariosNotificados()
                                   ],
                                 )
-                              ]),
+                              ]),)
                         ),
                       ]),
                 )
@@ -107,12 +109,11 @@ class NoticeStateAdmin extends State<Notice>{
       return Text("N/A");
     }
     return ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-    itemCount:usuariosNotificados.length,
-    itemBuilder: (BuildContext context,  index){
-    return _itemUsuarioNotificado(usuariosNotificados[index]);
+        itemCount:usuariosNotificados.length,
+        itemBuilder: (BuildContext context,  index){
+          return _itemUsuarioNotificado(usuariosNotificados[index]);
 
-  }
+        }
     );
 }
     Widget _itemUsuarioNotificado(String usuario){
