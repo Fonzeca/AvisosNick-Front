@@ -21,6 +21,14 @@ class NoticeModel {
     'mails' : mails
   };
 
+  NoticeModel.fromJson(Map<String, dynamic> json):
+      id = json['id'],
+      title = json['title'],
+      description = json['description'],
+      author = json['author'],
+      creationDate = json['creationDate'],
+      mails = List<String>.from(json['mails']);
+
 }
 class PojoCreateNotice {
 
