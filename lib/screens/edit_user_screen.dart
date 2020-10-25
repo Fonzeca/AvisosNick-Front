@@ -90,7 +90,8 @@ class _EditUserState extends State<EditUser> {
           children: [
             _createInputText("Email", Icons.email, false, emailUser, null),
             _createInputText("Nombre completo", Icons.person, true, fullNameUser, setMail),
-            _createDropBoxSelector(userTypesAvailable),
+            isAdmin?
+            _createDropBoxSelector(userTypesAvailable):SizedBox(),
             Container(
               child: Text("Tipos de usuario:", style: TextStyle(fontSize: 17, color: Colors.black87),),
               alignment: Alignment.centerLeft,

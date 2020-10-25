@@ -202,7 +202,8 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],
+          n["author"],n["creationDate"],n["mails"]);
       notices.add(notice);
     }
     return notices;
@@ -228,7 +229,8 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices = [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"]
+          ,n["creationDate"],n["mails"]);
       notices.add(notice);
     }
     return notices;
@@ -251,7 +253,8 @@ class ServidorRest {
     }
 
     var n = json.decode(response.body);
-    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"],
+        n["creationDate"], n["mails"]);
     return notice;
   }
 
