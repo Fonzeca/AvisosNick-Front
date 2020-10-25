@@ -6,12 +6,11 @@ class NoticeModel {
   final String description;
   final String author;
   final String creationDate;
-  final String mails;
-  final PojoCreateNotice send;
+  final List<String> mails;
 
 
   NoticeModel (this.id, this.title, this.description, this.author, this.creationDate,
-      this.mails, this.send);
+      this.mails);
 
   Map<String, dynamic> toJson() =>{
     'id' : id,
@@ -19,8 +18,7 @@ class NoticeModel {
     'description' : description,
     'author' : author,
     'creationDate' : creationDate,
-    'mails' : mails,
-    'send' : send
+    'mails' : mails
   };
 
 }
@@ -42,21 +40,20 @@ class PojoCreateNotice {
     'sendNotification' : sendNotification,
     'title' : title,
     'description' : description,
-    'data' : data
+    'data' : data.toJson()
 
   };
 }
 
 class PojoData{
-  final Map<String, Object> additionalProperties;
+  final Map<String, String> additionalProperties;
 
 
   PojoData(this.additionalProperties);
 
 
-  Map<String, dynamic> toJson() =>{
-    'additionalProperties' : additionalProperties
-  };
+  Map<String, dynamic> toJson() =>
+    additionalProperties;
 }
 
 class PojoId{

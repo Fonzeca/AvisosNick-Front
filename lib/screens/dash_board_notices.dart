@@ -205,7 +205,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               FlatButton(
                 child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha,false,null),));
                 },
                 color: nickPrimaryColorLight,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),

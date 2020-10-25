@@ -24,13 +24,13 @@ class ServidorRest {
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
     print("Login Basic/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
-    //Praseamos el json al object
-    Map pojoMap = jsonDecode(response.body);
-    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
-
     if(response.statusCode != 200){
       return false;
     }
+    //Parseamos el json al object
+    Map pojoMap = jsonDecode(response.body);
+    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
+
 
     MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_NORMAL);
     return true;
@@ -43,13 +43,13 @@ class ServidorRest {
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
     print("Login Google/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
-    //Praseamos el json al object
-    Map pojoMap = jsonDecode(response.body);
-    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
-
     if(response.statusCode != 200){
       return false;
     }
+    //Parseamos el json al object
+    Map pojoMap = jsonDecode(response.body);
+    PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
+
     MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_GOOGLE);
     return true;
   }
@@ -61,13 +61,13 @@ class ServidorRest {
     var response = await http.post(IpServer + ":" + Port + endpoint + requestParam);
     print("Login Facebook/ Status: " + response.statusCode.toString() + " Body: " + response.body);
 
+    if(response.statusCode != 200){
+      return false;
+    }
     //Praseamos el json al object
     Map pojoMap = jsonDecode(response.body);
     PojoLogIn pojoLogIn = PojoLogIn.fromJson(pojoMap);
 
-    if(response.statusCode != 200){
-      return false;
-    }
     MindiaHttpClient.setPojoLogin(pojoLogIn, LOGIN_TYPE_FACEBOOK);
     return true;
   }
@@ -202,7 +202,8 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],
+          n["author"],n["creationDate"],n["mails"]);
       notices.add(notice);
     }
     return notices;
@@ -228,7 +229,8 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices = [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"],n["creationDate"],n["mails"],n["send"]);
+      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],n["author"]
+          ,n["creationDate"],n["mails"]);
       notices.add(notice);
     }
     return notices;
@@ -251,7 +253,8 @@ class ServidorRest {
     }
 
     var n = json.decode(response.body);
-    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"], n["creationDate"], n["mails"], n["send"]);
+    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"],
+        n["creationDate"], n["mails"]);
     return notice;
   }
 

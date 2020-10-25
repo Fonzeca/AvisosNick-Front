@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
+import 'package:nick_tecnologia_notices/screens/notice.dart';
 
 class AdminNoticeMenu extends StatefulWidget{
   @override
@@ -91,6 +92,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       return Text("No se encontraron avisos.", style: TextStyle(fontSize: 24),
           textAlign: TextAlign.center);
     }
+
+
     return ListView.builder(
       itemCount: avisos.length,
         itemBuilder:(BuildContext context, index){
@@ -109,7 +112,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
         trailing: FlatButton(
           minWidth: 0,
           onPressed: (){
-            _fullNotice(pojo);
+            print(pojo.mails);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(pojo.title,pojo.description,pojo.author,pojo.creationDate,true,pojo.mails ),));
           },
           child: Icon(Icons.visibility),
         ),
@@ -117,31 +121,6 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
     );
   }
 
-  Widget _fullNotice(NoticeModel pojo){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(pojo.title),
-
-      ),
-      body: Center(
-        child: Text.rich(
-          TextSpan(
-            text: pojo.description,
-            children: <TextSpan>[
-              TextSpan(
-                text: 'Creado: '+pojo.creationDate,
-
-              ),
-              TextSpan(
-                text: 'Por: '+pojo.author,
-
-              )
-            ]
-          )
-        ),
-      ),
-    );
-  }
 
   /**
    * Crear noticia
@@ -265,13 +244,17 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
   void guardarNotice() {
     EasyLoading.show();
     //TODO: mejorar para cuando haya mas de un tipo de usuario.
-    List<String> types= new List(1);
-    types[0]=userTypeCreateUser;
+    List<String> types= new List<String>();
+    types.add(userTypeCreateUser);
+
+
     additionalProp.putIfAbsent("click_action", () => "FLUTTER_NOTIFICATION_CLICK");
 
     PojoData data = PojoData(additionalProp);
     PojoCreateNotice pojoCreateNotice = PojoCreateNotice(types,null,checkSendNotification_createNotice,
       title_createNotice,message_createNotice,data);
+
+
     _servidorRest.createNotice(pojoCreateNotice).then((value){
       EasyLoading.showSuccess("Aviso creado con éxito.");
 
