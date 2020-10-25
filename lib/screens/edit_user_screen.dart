@@ -21,6 +21,7 @@ class _EditUserState extends State<EditUser> {
   bool saveButtonEnabled = true;
   List<String> userTypesAvailable;
   String userTypeCreateUser;
+  bool needLoad = true;
 
   VUser vuser;
 
@@ -32,6 +33,9 @@ class _EditUserState extends State<EditUser> {
   _EditUserState(this.isAdmin);
 
   void init(BuildContext context) {
+    if(!needLoad){
+      return;
+    }
     EasyLoading.show();
 
     if(emailUser == null || emailUser.isEmpty){
@@ -61,10 +65,11 @@ class _EditUserState extends State<EditUser> {
     }
 
     if(emailUser != null && emailUser.isNotEmpty &&
-        vuser != null &&
-        (!isAdmin || userTypesAvailable != null)){
+    vuser != null &&
+    (!isAdmin || userTypesAvailable != null)){
       fullNameUser = vuser.fullName;
       userType = vuser.userType;
+      needLoad = false;
       EasyLoading.dismiss();
     }
   }
@@ -89,15 +94,31 @@ class _EditUserState extends State<EditUser> {
         child: Column(
           children: [
             _createInputText("Email", Icons.email, false, emailUser, null),
-            _createInputText("Nombre completo", Icons.person, true, fullNameUser, setMail),
-            _createDropBoxSelector(userTypesAvailable),
+            _createInputText("Nombre completo", Icons.person, true, fullNameUser, setNameUser),
+            isAdmin ?
+            ListTile(
+              title: _createDropBoxSelector(userTypesAvailable),
+              trailing: GestureDetector(
+                child: Icon(Icons.add),
+                onTap: () {
+                  setState(() {
+                    if(!userType.contains(userTypeCreateUser)){
+                      userType.add(userTypeCreateUser);
+                    }
+                    userTypeCreateUser = "";
+                  });
+                },
+              ),
+            ) : SizedBox(),
+            isAdmin ?
             Container(
               child: Text("Tipos de usuario:", style: TextStyle(fontSize: 17, color: Colors.black87),),
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.symmetric(vertical: 7),
-            ),
-            _createListGridView(userType),
-            _buildButtonSave(null)
+            ) : SizedBox(),
+            isAdmin ?
+            _createListGridView(userType) : SizedBox(),
+            _buildButtonSave(guardarUsuario)
           ],
         ),
       ),
@@ -108,7 +129,7 @@ class _EditUserState extends State<EditUser> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
       child: TextFormField(
-        initialValue: defaultValue,
+      controller: TextEditingController(text: defaultValue),
         decoration: InputDecoration(
             labelText: label,
             border: OutlineInputBorder(
@@ -149,7 +170,7 @@ class _EditUserState extends State<EditUser> {
           return Card(
             child: ListTile(
               title: Text(
-                items[0],
+                items[index],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 13
@@ -229,8 +250,32 @@ class _EditUserState extends State<EditUser> {
     );
   }
 
-  void setMail(String newValue){
+  void setNameUser(String newValue){
+    fullNameUser = newValue;
+  }
 
+  void addUserType(String newValue){
+    userType.add(newValue);
+  }
+
+  void guardarUsuario(){
+    VUser vuser = VUser(emailUser, null, fullNameUser, null, userType );
+    EasyLoading.show();
+    if(isAdmin){
+      _servidorRest.modifyUser(vuser).then((value){
+        EasyLoading.dismiss();
+        Navigator.of(context).pop();
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
+      });
+    }else{
+      _servidorRest.modifyMyUser(vuser).then((value){
+        EasyLoading.dismiss();
+        Navigator.of(context).pop();
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
+      });
+    }
   }
 
 }

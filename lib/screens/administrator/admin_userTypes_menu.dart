@@ -205,7 +205,12 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
     );
   }
   void _deactivateType (String code){
-    _servidorRest.deactivateUserType(code);
+    EasyLoading.show();
+    _servidorRest.deactivateUserType(code).then((value) {
+      EasyLoading.showSuccess("Tipo de usuario desactivado con éxito.");
+    }).catchError((e){
+      EasyLoading.showError(e.toString());
+    });
   }
 }
 

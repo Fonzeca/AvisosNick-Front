@@ -7,7 +7,7 @@ class NoticeModel {
   final String author;
   final String creationDate;
   final String mails;
-  final String send;
+  final PojoCreateNotice send;
 
 
   NoticeModel (this.id, this.title, this.description, this.author, this.creationDate,

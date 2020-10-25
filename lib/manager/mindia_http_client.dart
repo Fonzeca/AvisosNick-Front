@@ -19,7 +19,7 @@ class MindiaHttpClient extends http.BaseClient {
 
     String token = pojoLogIn.token;
 
-    request.headers['Content-Type'] = "application/json";
+    request.headers['Content-Type'] = "application/json; charset=utf-8";
     request.headers['Authorization'] = authorization + token;
     return _inner.send(request);
   }

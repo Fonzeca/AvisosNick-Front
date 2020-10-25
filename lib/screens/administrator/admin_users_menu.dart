@@ -96,18 +96,30 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     return Card(
       child: ListTile(
         title: Text(user.email),
-        trailing: FlatButton(
-          minWidth: 0,
-          onPressed: () {
-            _deleteUserModal(null);
-          },
-          child: Icon(Icons.delete),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FlatButton(
+              minWidth: 0,
+              onPressed: () {
+                Navigator.of(context).pushNamed('/administrator/usuarios/editUser', arguments: user.email);
+              },
+              child: Icon(Icons.edit),
+            ),
+            FlatButton(
+              minWidth: 0,
+              onPressed: () {
+                _deleteUserModal(null);
+              },
+              child: Icon(Icons.delete),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void _deleteUserModal(String code){
+  void _deleteUserModal(String email){
     showDialog(context: context,
       builder: (_) => new AlertDialog(
         title: Text("¿Desactivar usuario?"),
@@ -115,7 +127,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
           FlatButton(
             onPressed:() {
               //TODO: Hacer la funcionalidad para desactivar un usuario.
-              _deactivateUser(code);
+              _deactivateUser(email);
               Navigator.of(context).pop();
             },
             child: Text("Aceptar")),
