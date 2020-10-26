@@ -38,6 +38,10 @@ class MyApp extends StatelessWidget {
           print("onLaunch: $message");
         },
         onResume: (Map<String, dynamic> message) async {
+          if(message.containsKey('data')){
+            var data = message['data'];
+            String id_notice = data['id_notice'];
+          }
           print("onResume: $message");
         },
         onBackgroundMessage: myBackgroundMessageHandler,

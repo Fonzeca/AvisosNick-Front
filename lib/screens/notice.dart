@@ -16,6 +16,9 @@ class Notice extends StatefulWidget {
     this.admin = admin;
     this.usuariosNotificados = usuariosNotificados;
   }
+  Notice fonzoTrolo (String id){
+
+  }
 
   @override
   State<StatefulWidget> createState() {
