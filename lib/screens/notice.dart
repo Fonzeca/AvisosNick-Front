@@ -60,7 +60,7 @@ class NoticeStateAdmin extends State<Notice> {
                   height: 20.0,
                 ),
                 Expanded(
-                  flex: 9,
+                  flex: 5,
                   child: SingleChildScrollView(
                     child: Container(
                       width: double.infinity,
@@ -73,7 +73,7 @@ class NoticeStateAdmin extends State<Notice> {
                 ),
                 Divider(),
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: SingleChildScrollView(
@@ -124,11 +124,15 @@ class NoticeStateAdmin extends State<Notice> {
     if (usuariosNotificados == null || usuariosNotificados.isEmpty) {
       return Text("N/A");
     }
-    return ListView.builder(
-        itemCount: usuariosNotificados.length,
-        itemBuilder: (BuildContext context, index) {
-          return _itemUsuarioNotificado(usuariosNotificados[index]);
-        });
+    return Container(
+      height: 70,
+      width: 200,
+      child: ListView.builder(
+          itemCount: usuariosNotificados.length,
+          itemBuilder: (BuildContext context, index) {
+            return _itemUsuarioNotificado(usuariosNotificados[index]);
+          }),
+    );
   }
 
   Widget _itemUsuarioNotificado(String usuario) {
