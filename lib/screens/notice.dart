@@ -39,7 +39,7 @@ class NoticeStateAdmin extends State<Notice> {
 
     if(noticeModel == null){
       _rest.getNoticeById(id_notice).then((value){
-        _markAsRead(noticeModel.id, noticeModel.readed);
+        _markAsRead(value.id, value.readed);
         setState(() {
           noticeModel = value;
           titulo = value.title;
@@ -68,6 +68,22 @@ class NoticeStateAdmin extends State<Notice> {
 
   @override
   Widget build(BuildContext context) {
+    if(noticeModel == null){
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Icon(Icons.auto_awesome,size: 48),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text("En este momento no se encuentran noticias para usted.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+          ),
+        ],
+      );
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Aviso"),
@@ -192,7 +208,7 @@ class NoticeState extends State<Notice> {
 
     if (noticeModel == null) {
       _rest.getNoticeById(id_notice).then((value) {
-        _markAsRead(noticeModel.id, noticeModel.readed);
+        _markAsRead(value.id, value.readed);
         setState(() {
           noticeModel = value;
           titulo = value.title;
@@ -219,6 +235,20 @@ class NoticeState extends State<Notice> {
 
   @override
   Widget build(BuildContext context) {
+    if(noticeModel == null){
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Icon(Icons.auto_awesome,size: 48),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text("En este momento no se encuentran noticias para usted.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+          ),
+        ],
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Aviso"),
