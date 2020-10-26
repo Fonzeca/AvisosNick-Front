@@ -191,6 +191,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
   Widget _buildNotice(String titulo, String mensaje, String autor, String fecha, String id, bool readed){
     return Card(
+      color: readed ? Colors.white: Color(0xffffee80),
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -206,27 +207,21 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            trailing: FlatButton(
-              minWidth: 0,
-              onPressed: (){
-                _markAsRead(id, readed);
-              },
-              child:
-              readed ?
-              Icon(Icons.assignment_turned_in_outlined):
-                  Icon(Icons.assignment_turned_in)
-            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              FlatButton(
-                child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha,false,null),));
-                },
-                color: nickPrimaryColorLight,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                child: FlatButton(
+                  child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
+                  onPressed: () {
+                    _markAsRead(id, readed);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha,false,null),)).then((value) => fetchData());
+                  },
+                  color: nickPrimaryColorLight,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+                ),
               ),
             ],
           )
@@ -237,11 +232,8 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
   void _markAsRead(String id, bool readed){
     if(!readed){
-
-      EasyLoading.show();
       ServidorRest _servidorRest = ServidorRest();
       _servidorRest.markNoticeAsRead(new PojoId(id)).then((value){
-        EasyLoading.showSuccess("");
 
       }).catchError((e){
         EasyLoading.showError(e.toString());
@@ -249,4 +241,11 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     }
   }
 
+
+  void fetchData(){
+    objectSignIn = null;
+    noticiasOP = null;
+    init();
+    return;
+  }
 }
