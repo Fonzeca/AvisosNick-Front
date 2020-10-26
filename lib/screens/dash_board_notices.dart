@@ -178,7 +178,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     }
     return RefreshIndicator(
       onRefresh: (){
-        fetchData();
+        _fetchData();
         return;
       },
       child: ListView(
@@ -214,8 +214,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
                 child: FlatButton(
                   child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
                   onPressed: () {
-                    _markAsRead(id, readed);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(titulo, mensaje, autor, fecha,false,null),)).then((value) => fetchData());
+                    viewNotice(id);
                   },
                   color: nickPrimaryColorLight,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -230,8 +229,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
   void _markAsRead(String id, bool readed){
     if(!readed){
-      ServidorRest _servidorRest = ServidorRest();
-      _servidorRest.markNoticeAsRead(new PojoId(id)).then((value){
+      _rest.markNoticeAsRead(new PojoId(id)).then((value){
 
       }).catchError((e){
         EasyLoading.showError(e.toString());
@@ -239,8 +237,15 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     }
   }
 
-
-  void fetchData(){
+  void viewNotice(String id_notice){
+    NoticeModel noticeModel;
+    _rest.getNoticeById(id_notice).then((value){
+      noticeModel = value;
+    });
+    _markAsRead(noticeModel.id, noticeModel.readed);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(noticeModel.title, noticeModel.description, noticeModel.author, noticeModel.creationDate,false,null),)).then((value) => _fetchData());
+  }
+  void _fetchData(){
     objectSignIn = null;
     noticiasOP = null;
     init();

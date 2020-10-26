@@ -126,7 +126,6 @@ Future<bool> signInBasic(String email, String password) async{
 
     return true;
   }
-  EasyLoading.showToast("Usuario o contraseña inválidos");
   return false;
 }
 
