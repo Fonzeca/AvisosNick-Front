@@ -226,15 +226,6 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     );
   }
 
-  void _markAsRead(String id, bool readed){
-    if(!readed){
-      _rest.markNoticeAsRead(new PojoId(id)).then((value){
-
-      }).catchError((e){
-        EasyLoading.showError(e.toString());
-      });
-    }
-  }
 
   void viewNotice(String id_notice){
     Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(id_notice, false),)).then((value) => _fetchData());
