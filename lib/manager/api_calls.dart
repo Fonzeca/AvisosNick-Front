@@ -202,9 +202,7 @@ class ServidorRest {
     var jsonData = json.decode(response.body);
     List<NoticeModel> notices= [];
     for(var n in jsonData){
-      NoticeModel notice = new NoticeModel(n["id"],n["title"],n["description"],
-          n["author"],n["creationDate"],n["mails"]);
-      notices.add(notice);
+      notices.add( NoticeModel.fromJson(n));
     }
     return notices;
 
@@ -253,8 +251,7 @@ class ServidorRest {
     }
 
     var n = json.decode(response.body);
-    NoticeModel notice= new NoticeModel(n["id"], n["title"], n["description"], n["author"],
-        n["creationDate"], n["mails"]);
+    NoticeModel notice= new NoticeModel.fromJson(n);
     return notice;
   }
 

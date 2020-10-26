@@ -7,10 +7,11 @@ class NoticeModel {
   final String author;
   final String creationDate;
   final List<String> mails;
+  final bool readed;
 
 
   NoticeModel (this.id, this.title, this.description, this.author, this.creationDate,
-      this.mails);
+      this.mails,this.readed);
 
   Map<String, dynamic> toJson() =>{
     'id' : id,
@@ -27,7 +28,8 @@ class NoticeModel {
       description = json['description'],
       author = json['author'],
       creationDate = json['creationDate'],
-      mails = List<String>.from(json['mails']);
+      mails = List<String>.from(json['mails']),
+      readed = json['readed'];
 
 }
 class PojoCreateNotice {

@@ -174,14 +174,14 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     List<Widget> widgets = new List();
 
     for (var notice in noticiasOP){
-      widgets.add(_buildNotice(notice.title, notice.description, notice.author, notice.creationDate));
+      widgets.add(_buildNotice(notice.title, notice.description, notice.author, notice.creationDate, notice.id, notice.readed));
     }
     return ListView(
       children: widgets,
     );
   }
 
-  Widget _buildNotice(String titulo, String mensaje, String autor, String fecha){
+  Widget _buildNotice(String titulo, String mensaje, String autor, String fecha, String id, bool readed){
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
       child: Column(
@@ -197,6 +197,16 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
+            ),
+            trailing: FlatButton(
+              minWidth: 0,
+              onPressed: (){
+                _markAsRead(id, readed);
+              },
+              child:
+              readed ?
+              Icon(Icons.assignment_turned_in_outlined):
+                  Icon(Icons.assignment_turned_in)
             ),
           ),
           Row(
@@ -215,6 +225,20 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
         ],
       ),
     );
+  }
+
+  void _markAsRead(String id, bool readed){
+    if(!readed){
+
+      EasyLoading.show();
+      ServidorRest _servidorRest = ServidorRest();
+      _servidorRest.markNoticeAsRead(new PojoId(id)).then((value){
+        EasyLoading.showSuccess("");
+
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
+      });
+    }
   }
 
 }
