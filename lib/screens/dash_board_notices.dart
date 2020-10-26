@@ -151,7 +151,12 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
           ],
         ),
       ),
-      body: _buildBody(),
+      body: RefreshIndicator(
+        onRefresh: (){
+          return _fetchData();
+        },
+        child: _buildBody()
+      ),
     );
   }
 
@@ -176,14 +181,8 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     for (var notice in noticiasOP){
       widgets.add(_buildNotice(notice.title, notice.description, notice.author, notice.creationDate, notice.id, notice.readed));
     }
-    return RefreshIndicator(
-      onRefresh: (){
-        _fetchData();
-        return;
-      },
-      child: ListView(
-        children: widgets,
-      ),
+    return ListView(
+      children: widgets,
     );
   }
 
@@ -240,7 +239,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   void viewNotice(String id_notice){
     Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(id_notice, false),)).then((value) => _fetchData());
   }
-  void _fetchData(){
+  Future<void> _fetchData() async{
     objectSignIn = null;
     noticiasOP = null;
     init();
