@@ -165,7 +165,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
           ),
           Padding(
             padding: const EdgeInsets.all(18.0),
-            child: Text("En este momento no se encuentran noticias.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+            child: Text("En este momento no se encuentran noticias para usted.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
           ),
         ],
       );
