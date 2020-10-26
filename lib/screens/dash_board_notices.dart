@@ -238,12 +238,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   }
 
   void viewNotice(String id_notice){
-    NoticeModel noticeModel;
-    _rest.getNoticeById(id_notice).then((value){
-      noticeModel = value;
-    });
-    _markAsRead(noticeModel.id, noticeModel.readed);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(noticeModel.title, noticeModel.description, noticeModel.author, noticeModel.creationDate,false,null),)).then((value) => _fetchData());
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(id_notice, false),)).then((value) => _fetchData());
   }
   void _fetchData(){
     objectSignIn = null;

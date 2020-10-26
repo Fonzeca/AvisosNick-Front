@@ -112,8 +112,7 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
         trailing: FlatButton(
           minWidth: 0,
           onPressed: (){
-            print(pojo.mails);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(pojo.title,pojo.description,pojo.author,pojo.creationDate,true,pojo.mails ),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(pojo.id, true),));
           },
           child: Icon(Icons.visibility),
         ),

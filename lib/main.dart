@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
           if(message.containsKey('data')){
             var data = message['data'];
             String id_notice = data['id_notice'];
+            print("SE VIZUALIZA LA NOTICIA" + id_notice);
+//            Navigator.push(context, MaterialPageRoute(builder: (context) => Notice(id_notice, false),));
           }
           print("onResume: $message");
         },
