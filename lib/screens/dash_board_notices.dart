@@ -52,7 +52,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
       }
     }
 
-    if(objectSignIn  != null && noticiasOP != null){
+    if(objectSignIn != null && noticiasOP != null){
       EasyLoading.dismiss();
     }
   }
@@ -176,8 +176,16 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     for (var notice in noticiasOP){
       widgets.add(_buildNotice(notice.title, notice.description, notice.author, notice.creationDate, notice.id, notice.readed));
     }
-    return ListView(
-      children: widgets,
+    return RefreshIndicator(
+      onRefresh: (){
+        objectSignIn = null;
+        noticiasOP = null;
+        init();
+        return;
+      },
+      child: ListView(
+        children: widgets,
+      ),
     );
   }
 

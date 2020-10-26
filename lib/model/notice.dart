@@ -28,7 +28,7 @@ class NoticeModel {
       description = json['description'],
       author = json['author'],
       creationDate = json['creationDate'],
-      mails = List<String>.from(json['mails']),
+      mails = json['mails'] != null ? List<String>.from(json['mails']) : null,
       readed = json['readed'];
 
 }
