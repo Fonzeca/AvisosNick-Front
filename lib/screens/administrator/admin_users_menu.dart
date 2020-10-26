@@ -42,7 +42,12 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
         ),
         body: TabBarView(
           children: [
-            _listaUsuariosScreen(),
+            RefreshIndicator(
+              child: _listaUsuariosScreen(),
+              onRefresh: (){
+                return _fetchData();
+              },
+            ),
             _createUserScreen()
           ],
         ),
@@ -152,6 +157,13 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     }).catchError((e){
       EasyLoading.showError(e.toString());
     });
+  }
+
+  Future<void> _fetchData() async {
+    users = null;
+    tiposDeUsuario = null;
+    init();
+    return;
   }
 
   /**
@@ -290,6 +302,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
       EasyLoading.showSuccess("Usuario guardado");
       saveButtonEnabled = true;
       limpiarFormulario();
+      _fetchData();
     }).catchError((e){
       EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(seconds: 1));
       saveButtonEnabled = true;

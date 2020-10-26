@@ -179,6 +179,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     return RefreshIndicator(
       onRefresh: (){
         fetchData();
+        return;
       },
       child: ListView(
         children: widgets,
