@@ -431,6 +431,21 @@ class ServidorRest {
     return user;
   }
 
+  Future<void> setUserActive(String email, bool active) async{
+    String endpoint = "/user/setActive";
+    String params = "?email="+email + "&active=" + active.toString();
+    var response = await client.post(IpServer + ":" + Port + endpoint+ params);
+
+    print("setActive/ Status: " + response.statusCode.toString() + " Body: " + response.body);
+
+    if(response.statusCode != 200){
+      if(response.statusCode == 401){
+        await validateToken(true);
+
+      }
+      throw new Exception("No se pudo conectar.");
+    }
+  }
 
   /**
    * UserType api calls

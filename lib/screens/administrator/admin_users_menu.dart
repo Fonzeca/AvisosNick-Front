@@ -109,7 +109,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
             FlatButton(
               minWidth: 0,
               onPressed: () {
-                _deleteUserModal(null);
+                _deleteUserModal(user.email);
               },
               child: Icon(Icons.delete),
             ),
@@ -141,8 +141,13 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     );
   }
 
-  void _deactivateUser(String code){
-
+  void _deactivateUser(String mail){
+    EasyLoading.show();
+    _servidorRest.setUserActive(mail, false).then((value) {
+      EasyLoading.showSuccess("Usuario desactivado con exito.");
+    }).catchError((e){
+      EasyLoading.showError(e.toString());
+    });
   }
 
   /**
