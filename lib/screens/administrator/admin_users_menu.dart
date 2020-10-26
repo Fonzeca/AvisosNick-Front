@@ -57,6 +57,8 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
         setState(() {
           users = value;
         })
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
       });
     }
 
@@ -65,6 +67,8 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
         setState((){
           tiposDeUsuario = value;
         })
+      }).catchError((e){
+        EasyLoading.showError(e.toString());
       });
     }
 
