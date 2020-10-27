@@ -150,7 +150,7 @@ class NoticeStateAdmin extends State<Notice> {
                             ),
                             Row(
                               children: <Widget>[
-                                Text("Usuarios notificados: "),
+                                Text("Enviado a: "),
                                 _listUsuariosNotificados()
                               ],
                             )

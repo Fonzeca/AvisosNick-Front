@@ -153,6 +153,7 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
   void _deactivateUser(String mail){
     EasyLoading.show();
     _servidorRest.setUserActive(mail, false).then((value) {
+      _fetchData();
       EasyLoading.showSuccess("Usuario desactivado con exito.");
     }).catchError((e){
       EasyLoading.showError(e.toString());
@@ -299,10 +300,10 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     EasyLoading.show();
     _servidorRest.createUser(VUser(emailCreateUser, passwordCreateUser, fullNameCreateUser, roles, userTypes))
         .then((value) {
-      EasyLoading.showSuccess("Usuario guardado");
       saveButtonEnabled = true;
       limpiarFormulario();
       _fetchData();
+      EasyLoading.showSuccess("Usuario guardado");
     }).catchError((e){
       EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(seconds: 1));
       saveButtonEnabled = true;

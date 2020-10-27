@@ -129,18 +129,13 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
     EasyLoading.show();
     _servidorRest.createUserType(PojoUserType(codeCreateType, descriptionCreateType))
         .then((value) {
+          _fetchData(true);
       EasyLoading.showSuccess("Tipo de usuario guardado con éxito");
-      saveButtonEnabled = true;
-      limpiarFormulario();
+
     }).catchError((e){
       EasyLoading.showError("Falló la carga del tipo de usuario", duration: Duration(seconds: 1));
       saveButtonEnabled = true;
     });
-  }
-
-  void limpiarFormulario(){
-    codeCreateType = "";
-    descriptionCreateType = "";
   }
 
   Widget _createInputText(String label, IconData icon, String field) {
@@ -207,10 +202,28 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
   void _deactivateType (String code){
     EasyLoading.show();
     _servidorRest.deactivateUserType(code).then((value) {
+      _fetchData(false);
       EasyLoading.showSuccess("Tipo de usuario desactivado con éxito.");
     }).catchError((e){
       EasyLoading.showError(e.toString());
     });
   }
+
+  void _fetchData(bool guardar) async{
+    if(guardar){
+
+      saveButtonEnabled = true;
+      limpiarFormulario();
+    }
+    tiposDeUsuario=null;
+    init();
+    return;
+  }
+
+  void limpiarFormulario(){
+    codeCreateType = "";
+    descriptionCreateType = "";
+  }
+
 }
 

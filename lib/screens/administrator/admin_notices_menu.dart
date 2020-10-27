@@ -257,11 +257,18 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
     _servidorRest.createNotice(pojoCreateNotice).then((value){
       EasyLoading.showSuccess("Aviso creado con éxito.");
 
+      _fetchData();
+
     }).catchError((e){
       EasyLoading.showError(e.toString(), duration: Duration(seconds: 3));
     });
 
 
+  }
+  Future<void> _fetchData() async{
+    avisos=null;
+    init();
+    return;
   }
 
 }
