@@ -108,7 +108,7 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       child: ListTile(
         isThreeLine: true,
         title: Text(pojo.title),
-        subtitle: Text(pojo.description),
+        subtitle: Text(pojo.description, maxLines: 3,),
         trailing: FlatButton(
           minWidth: 0,
           onPressed: (){
