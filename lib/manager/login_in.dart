@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -14,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "944140954391-iuoilfj8dkfadhsog924buo7gnt32atl.apps.googleusercontent.com");
 final ServidorRest _servidorRest = ServidorRest();
-final FirebaseMessaging _messaging = FirebaseMessaging();
 
 final String _keyEmail = "email";
 final String _keyPassword = "password";
@@ -37,7 +35,6 @@ Future<bool> signIn(int type, BuildContext context, [String email, String passwo
       break;
   }
   if(canLogIn){
-    _messaging.getToken().then((value) => _servidorRest.setToken(value));
     Navigator.pushReplacementNamed(context, '/dashBoard');
   }
   return canLogIn;
