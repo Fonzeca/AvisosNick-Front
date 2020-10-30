@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
@@ -57,14 +56,12 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
   }
 
   void init() {
-    EasyLoading.show();
     if(avisos == null){
       _servidorRest.getAllNotices().then((value) => {
         setState((){
           avisos = value;
         })
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
     if(tiposDeUsuario == null){
@@ -73,13 +70,11 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
           tiposDeUsuario = value;
         })
       }).catchError((e){
-        EasyLoading.showError("Error");
       });
     }
 
     if(tiposDeUsuario != null||avisos != null ){
 
-      EasyLoading.dismiss();
     }
   }
 
@@ -241,7 +236,6 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
 
   void guardarNotice() {
-    EasyLoading.show();
     //TODO: mejorar para cuando haya mas de un tipo de usuario.
     List<String> types= new List<String>();
     types.add(userTypeCreateUser);
@@ -255,12 +249,10 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
 
 
     _servidorRest.createNotice(pojoCreateNotice).then((value){
-      EasyLoading.showSuccess("Aviso creado con éxito.");
 
       _fetchData();
 
     }).catchError((e){
-      EasyLoading.showError(e.toString(), duration: Duration(seconds: 3));
     });
 
 

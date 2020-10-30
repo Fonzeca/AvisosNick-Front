@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 
@@ -33,15 +32,12 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
 
 
   void init() {
-    EasyLoading.show();
     if(avisos == null){
       _servidorRest.getAllNotices().then((value){
         setState(() {
           avisos = value;
         });
-        EasyLoading.dismiss();
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
 
     }
@@ -92,11 +88,9 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
 
 
   void _callReaders(String id) {
-    EasyLoading.show();
     PojoId pojoId = PojoId(id);
     _servidorRest.getNoticeReaders(pojoId).then((value){
       _viewReaders(value);
-      EasyLoading.dismiss();
     });
   }
 

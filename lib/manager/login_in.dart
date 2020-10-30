@@ -1,17 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
 import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "944140954391-iuoilfj8dkfadhsog924buo7gnt32atl.apps.googleusercontent.com");
 final ServidorRest _servidorRest = ServidorRest();
 
 final String _keyEmail = "email";
@@ -43,10 +38,8 @@ Future<bool> signIn(int type, BuildContext context, [String email, String passwo
 Future<bool> signInSilently() async{
 
   //Verificamos que tipo de inicio sesion tiene
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
   int type;
   try{
-    type = prefs.getInt(keySaveLoginType);
   }catch(e){
   }
 
@@ -67,13 +60,6 @@ Future<bool> signInSilently() async{
 }
 
 Future<bool> signOut(BuildContext context) async{
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove(keySaveLoginType);
-  prefs.remove(_keyEmail);
-  prefs.remove(_keyPassword);
-  prefs.remove(keyPojoUser);
-  await _googleSignIn.signOut();
-
   Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
 }
 
@@ -85,15 +71,10 @@ Future<bool> signOut(BuildContext context) async{
 
 Future<bool> signInWithGoogle([bool siently = false]) async {
 
-  GoogleSignInAccount googleUser = siently ? await _googleSignIn.signInSilently() : await _googleSignIn.signIn();
 
-  GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-  return await _servidorRest.loginWithGoogle(googleAuth.idToken);
 }
 
 Future<bool> signOutGoogle() async{
-  await _googleSignIn.signOut();
 }
 
 /**
@@ -101,13 +82,7 @@ Future<bool> signOutGoogle() async{
  */
 
 Future<bool> signInWithFacebook() async {
-  LoginResult result = await FacebookAuth.instance.login();
 
-  print(result.status);
-
-  if(result.status != 200){
-    return false;
-  }
   return true;
 }
 
@@ -116,10 +91,6 @@ Future<bool> signInWithFacebook() async {
  */
 Future<bool> signInBasic(String email, String password) async{
   if(await _servidorRest.login(email, password)){
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString(_keyEmail, email);
-    prefs.setString(_keyPassword, password);
 
     return true;
   }
@@ -127,11 +98,6 @@ Future<bool> signInBasic(String email, String password) async{
 }
 
 Future<bool> signInBasicSiently() async{
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  String email = prefs.getString(_keyEmail);
-  String password = prefs.getString(_keyPassword);
-
-  return await _servidorRest.login(email, password);
 }
 
 /**
@@ -139,15 +105,7 @@ Future<bool> signInBasicSiently() async{
  */
 
 Future<PojoLogIn> obtenerLogInActual() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String pojoString =  prefs.getString(keyPojoUser);
-
-  if(pojoString == null || pojoString.isEmpty){
     return null;
-  }
-  PojoLogIn pojoLogIn = PojoLogIn.fromJson(jsonDecode(pojoString));
-
-  return pojoLogIn;
 }
 
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
-import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
 import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -56,14 +54,12 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
   }
 
   void init(){
-    EasyLoading.show();
     if(users == null){
       _servidorRest.getUsers().then((value) => {
         setState(() {
           users = value;
         })
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
 
@@ -73,12 +69,10 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
           tiposDeUsuario = value;
         })
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
 
     if(users != null && tiposDeUsuario != null){
-      EasyLoading.dismiss();
     }
 
   }
@@ -151,12 +145,9 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
   }
 
   void _deactivateUser(String mail){
-    EasyLoading.show();
     _servidorRest.setUserActive(mail, false).then((value) {
       _fetchData();
-      EasyLoading.showSuccess("Usuario desactivado con exito.");
     }).catchError((e){
-      EasyLoading.showError(e.toString());
     });
   }
 
@@ -297,15 +288,12 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
     List<String> userTypes = List();
     userTypes.add(userTypeCreateUser);
 
-    EasyLoading.show();
     _servidorRest.createUser(VUser(emailCreateUser, passwordCreateUser, fullNameCreateUser, roles, userTypes))
         .then((value) {
       saveButtonEnabled = true;
       limpiarFormulario();
       _fetchData();
-      EasyLoading.showSuccess("Usuario guardado");
     }).catchError((e){
-      EasyLoading.showError("No se pudo terminar la operacion", duration: Duration(seconds: 1));
       saveButtonEnabled = true;
     });
   }

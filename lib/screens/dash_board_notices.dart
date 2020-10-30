@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/login_in.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
@@ -26,14 +25,12 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   PojoLogIn objectSignIn;
 
   void init(){
-    EasyLoading.show();
     if(noticiasOP == null){
       _rest.checkNotices().then((value){
         setState((){
           noticiasOP = value;
         });
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
 
@@ -53,7 +50,6 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
     }
 
     if(objectSignIn != null && noticiasOP != null){
-      EasyLoading.dismiss();
     }
   }
 

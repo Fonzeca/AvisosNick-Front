@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
@@ -35,7 +34,6 @@ class NoticeStateAdmin extends State<Notice> {
   @override
   void initState() {
     super.initState();
-    EasyLoading.show();
 
     if(noticeModel == null){
       _rest.getNoticeById(id_notice).then((value){
@@ -49,7 +47,6 @@ class NoticeStateAdmin extends State<Notice> {
           usuariosNotificados = value.mails;
         });
 
-        EasyLoading.dismiss();
       });
     }
   }
@@ -59,7 +56,6 @@ class NoticeStateAdmin extends State<Notice> {
       _rest.markNoticeAsRead(new PojoId(id)).then((value){
 
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
   }
@@ -204,7 +200,6 @@ class NoticeState extends State<Notice> {
   @override
   void initState() {
     super.initState();
-    EasyLoading.show();
 
     if (noticeModel == null) {
       _rest.getNoticeById(id_notice).then((value) {
@@ -217,7 +212,6 @@ class NoticeState extends State<Notice> {
           fecha = value.creationDate;
         });
 
-        EasyLoading.dismiss();
       });
     }
   }
@@ -227,7 +221,6 @@ class NoticeState extends State<Notice> {
       _rest.markNoticeAsRead(new PojoId(id)).then((value){
 
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
   }

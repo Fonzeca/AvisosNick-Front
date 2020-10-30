@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
 
@@ -47,15 +45,12 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
   }
 
   void init() {
-    EasyLoading.show();
     if (tiposDeUsuario == null) {
       _servidorRest.getAllUserTypes().then((value) {
         setState(() {
           tiposDeUsuario = value;
         });
-        EasyLoading.dismiss();
       }).catchError((e) {
-        EasyLoading.showError(e.toString());
       });
     }
   }
@@ -126,14 +121,11 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
   }
 
   void saveUserType() {
-    EasyLoading.show();
     _servidorRest.createUserType(PojoUserType(codeCreateType, descriptionCreateType))
         .then((value) {
           _fetchData(true);
-      EasyLoading.showSuccess("Tipo de usuario guardado con éxito");
 
     }).catchError((e){
-      EasyLoading.showError("Falló la carga del tipo de usuario", duration: Duration(seconds: 1));
       saveButtonEnabled = true;
     });
   }
@@ -200,12 +192,9 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
     );
   }
   void _deactivateType (String code){
-    EasyLoading.show();
     _servidorRest.deactivateUserType(code).then((value) {
       _fetchData(false);
-      EasyLoading.showSuccess("Tipo de usuario desactivado con éxito.");
     }).catchError((e){
-      EasyLoading.showError(e.toString());
     });
   }
 

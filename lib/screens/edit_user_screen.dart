@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/user.dart';
 
@@ -36,7 +34,6 @@ class _EditUserState extends State<EditUser> {
     if(!needLoad){
       return;
     }
-    EasyLoading.show();
 
     if(emailUser == null || emailUser.isEmpty){
       emailUser = ModalRoute.of(context).settings.arguments;
@@ -49,7 +46,6 @@ class _EditUserState extends State<EditUser> {
           vuser = value;
         });
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
 
@@ -60,7 +56,6 @@ class _EditUserState extends State<EditUser> {
           value.map((e) => userTypesAvailable.add(e.code)).toList();
         });
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
 
@@ -70,7 +65,6 @@ class _EditUserState extends State<EditUser> {
       fullNameUser = vuser.fullName;
       userType = vuser.userType;
       needLoad = false;
-      EasyLoading.dismiss();
     }
   }
 
@@ -260,20 +254,15 @@ class _EditUserState extends State<EditUser> {
 
   void guardarUsuario(){
     VUser vuser = VUser(emailUser, null, fullNameUser, null, userType );
-    EasyLoading.show();
     if(isAdmin){
       _servidorRest.modifyUser(vuser).then((value){
-        EasyLoading.dismiss();
         Navigator.of(context).pop();
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }else{
       _servidorRest.modifyMyUser(vuser).then((value){
-        EasyLoading.dismiss();
         Navigator.of(context).pop();
       }).catchError((e){
-        EasyLoading.showError(e.toString());
       });
     }
   }

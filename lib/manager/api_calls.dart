@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
 import 'package:nick_tecnologia_notices/model/notice.dart';
@@ -10,7 +7,6 @@ import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
 import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
-import 'package:universal_io/io.dart';
 
 import 'login_in.dart';
 
@@ -28,10 +24,8 @@ class ServidorRest {
 
     if(response.statusCode != 200) {
       if(response.statusCode == 406){
-        EasyLoading.showError("El usuario ingresado está desactivado");
         return false;
       }
-      EasyLoading.showToast("Usuario o contraseña inválidos");
       return false;
     }
     //Parseamos el json al object
@@ -52,10 +46,8 @@ class ServidorRest {
 
     if(response.statusCode != 200){
       if(response.statusCode == 406){
-        EasyLoading.showError("El usuario ingresado está desactivado");
         return false;
       }
-      EasyLoading.showToast("Usuario o contraseña inválidos");
       return false;
     }
     //Parseamos el json al object
@@ -75,10 +67,8 @@ class ServidorRest {
 
     if(response.statusCode != 200){
       if(response.statusCode == 406){
-        EasyLoading.showError("El usuario ingresado está desactivado");
         return false;
       }
-      EasyLoading.showToast("Usuario o contraseña inválidos");
       return false;
     }
     //Praseamos el json al object
