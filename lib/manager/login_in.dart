@@ -2,17 +2,14 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
-import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
 import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
-import 'package:nick_tecnologia_notices/screens/dash_board_notices.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "944140954391-iuoilfj8dkfadhsog924buo7gnt32atl.apps.googleusercontent.com");
+final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "944140954391-sjb76opctmefo2m14pt0aelqeh8cq8ub.apps.googleusercontent.com");
 final ServidorRest _servidorRest = ServidorRest();
 final FirebaseMessaging _messaging = FirebaseMessaging();
 

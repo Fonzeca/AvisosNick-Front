@@ -16,7 +16,8 @@ out/
 
 # Gradle files
 .gradle/
-build/
+build/*
+!build/web
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -216,10 +217,6 @@ iOSInjectionProject/
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
-
-# Build files
-build/
-
 
 **/flutter_export_environment.sh
 .dart_tool/
