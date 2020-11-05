@@ -295,6 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: double.infinity,
             child: SingleChildScrollView(
               child: Container(
+                alignment: Alignment.topCenter,
                 padding: EdgeInsets.only(
                   top: 25.0,
                   bottom: 60.0,
@@ -325,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 50),
                           child: Container(
-                            width: double.infinity,
+                            width: MediaQuery.of(context).size.width < 700 ? double.infinity : 700,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(Radius.circular(60)),
