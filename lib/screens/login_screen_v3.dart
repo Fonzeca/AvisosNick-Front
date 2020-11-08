@@ -62,6 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 50.0,
           child: TextField(
+            onSubmitted: (value) {
+              signIn(3, context, emailText, passwordText);
+            },
             onChanged: (text) => emailText = text,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
@@ -97,6 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 50.0,
           child: TextField(
+            onSubmitted: (value) {
+              signIn(3, context, emailText, passwordText);
+            },
             onChanged: (text) => passwordText = text,
             obscureText: true,
             style: TextStyle(

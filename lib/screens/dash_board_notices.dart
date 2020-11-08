@@ -6,6 +6,7 @@ import 'package:nick_tecnologia_notices/model/notice.dart';
 import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
+import 'package:responsive_scaffold/templates/layout/scaffold.dart';
 
 import '../manager/api_calls.dart';
 import 'notice.dart';
@@ -61,26 +62,22 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
   Widget build(BuildContext context) {
     init();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Avisos"),
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if(value == itemsPopMenuBar[0]){
-                Navigator.of(context).pushNamed("/myAccount", arguments: objectSignIn.mail);
-              }
-            },
-            itemBuilder: (BuildContext context){
-              return itemsPopMenuBar.map((String choice){
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
+    return ResponsiveScaffold(
+      title: Text("Avisos"),
+      trailing: PopupMenuButton<String>(
+        onSelected: (value) {
+          if(value == itemsPopMenuBar[0]){
+            Navigator.of(context).pushNamed("/myAccount", arguments: objectSignIn.mail);
+          }
+        },
+        itemBuilder: (BuildContext context){
+          return itemsPopMenuBar.map((String choice){
+            return PopupMenuItem<String>(
+              value: choice,
+              child: Text(choice),
+            );
+          }).toList();
+        },
       ),
       drawer: Drawer(
         child: ListView(
@@ -122,7 +119,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Avisos"),
               leading: Icon(Icons.home, color: nickAccentColor,),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.popUntil(context, ModalRoute.withName('/dashBoard'));
               },
             ),
 //            ListTile(
@@ -137,7 +134,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
               title: Text("Administración"),
               leading: Icon(Icons.format_list_bulleted,color: nickAccentColor),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.popUntil(context, ModalRoute.withName('/dashBoard'));
                 Navigator.of(context).pushNamed('/administrator');
               },
             ) : SizedBox(),
@@ -162,15 +159,22 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
 
   Widget _buildBody() {
     if(noticiasOP == null || noticiasOP.isEmpty){
-      return Column(
+      return ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Icon(Icons.auto_awesome,size: 48),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text("En este momento no se encuentran noticias para usted.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+          Container(
+            width: double.infinity,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Icon(Icons.auto_awesome,size: 48),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text("En este momento no se encuentran noticias para usted.", style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -209,7 +213,7 @@ class _DashBoardNoticesState extends State<DashBoardNotices> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 5),
+                margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                 child: FlatButton(
                   child: Text("VER MÁS", style: TextStyle(color: nickAccentColor, fontWeight: FontWeight.bold),),
                   onPressed: () {

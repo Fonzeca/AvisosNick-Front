@@ -25,34 +25,67 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
 
   bool saveButtonEnabled = true;
 
+  bool bigScreen = false;
   @override
   Widget build(BuildContext context) {
     init();
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    if(MediaQuery.of(context).size.width >= 800){
+      bigScreen = true;
+      return Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Text("Lista de usuarios"),
-              Text("Crear usuario"),
-            ],
-          ),
           title: Text("Menu de usuarios"),
         ),
-        body: TabBarView(
-          children: [
-            RefreshIndicator(
-              child: _listaUsuariosScreen(),
-              onRefresh: (){
-                return _fetchData();
-              },
-            ),
-            _createUserScreen()
-          ],
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                flex: 1,
+                child: RefreshIndicator(
+                  child: _listaUsuariosScreen(),
+                  onRefresh: (){
+                    return _fetchData();
+                  },
+                ),
+              ),
+              VerticalDivider(thickness: 1,),
+              Container(width: 500,child: _createUserScreen())
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }else{
+      bigScreen = false;
+      return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Text("Lista de usuarios"),
+                Text("Crear usuario"),
+              ],
+            ),
+            title: Text("Menu de usuarios"),
+          ),
+          body: TabBarView(
+            children: [
+              RefreshIndicator(
+                child: _listaUsuariosScreen(),
+                onRefresh: (){
+                  return _fetchData();
+                },
+              ),
+              _createUserScreen()
+            ],
+          ),
+        ),
+      );
+    }
+
   }
 
   void init(){
@@ -92,12 +125,20 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
           textAlign: TextAlign.center);
     }
 
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      itemCount: users.length,
-      itemBuilder: (BuildContext context, index){
-        return _itemListaUsuario(users[index]);
-      }
+    return Column(
+      children: [
+        SizedBox(height: bigScreen ? 20 : 0,),
+        bigScreen ? Text("Lista de usuarios", style: TextStyle(fontSize: 22),) : SizedBox(),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            itemCount: users.length,
+            itemBuilder: (BuildContext context, index){
+              return _itemListaUsuario(users[index]);
+            }
+          ),
+        ),
+      ],
     );
   }
 
@@ -178,6 +219,8 @@ class _AdminMenuUsuariosState extends State<AdminMenuUsuarios> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            bigScreen ? Text("Crear usuario",style: TextStyle(fontSize: 22),) : SizedBox(),
+            SizedBox(height: bigScreen ? 10 : 0,),
             _createInputText("Email", Icons.email, "email"),
             _createInputText("Nombre completo", Icons.person, "fullName"),
             _createInputText("Contraseña", Icons.lock, "password"),

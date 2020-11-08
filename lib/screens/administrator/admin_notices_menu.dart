@@ -30,30 +30,55 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
   Map<String,String> additionalProp = Map<String,String>();
   MapEntry<String,String> newEntries = MapEntry<String,String>("click_action", "FLUTTER_NOTIFICATION_CLICK");
 
+  bool bigScreen = false;
 
   @override
   Widget build(BuildContext context) {
     init();
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    if(MediaQuery.of(context).size.width >= 800){
+      bigScreen = true;
+      return Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Text("Lista de avisos"),
-              Text("Crear un aviso"),
-            ],
-          ),
           title: Text("Avisos"),
         ),
-        body: TabBarView(
-          children: [
-            _listNoticesScreen(),
-            _createNoticeScreen()
-          ],
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(flex: 3,child: _listNoticesScreen()),
+              VerticalDivider(thickness: 1,),
+              Container(width: 500,child: _createNoticeScreen())
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }else{
+      bigScreen = false;
+      return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Text("Lista de avisos"),
+                Text("Crear un aviso"),
+              ],
+            ),
+            title: Text("Avisos"),
+          ),
+          body: TabBarView(
+            children: [
+              _listNoticesScreen(),
+              _createNoticeScreen()
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   void init() {
@@ -94,11 +119,20 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
     }
 
 
-    return ListView.builder(
-      itemCount: avisos.length,
-        itemBuilder:(BuildContext context, index){
-        return _noticeListItem(avisos[index]);
-    },
+    return Column(
+      children: [
+        SizedBox(height: bigScreen ? 20 : 0,),
+        bigScreen ? Text("Avisos",style: TextStyle(fontSize: 22),): SizedBox(),
+        SizedBox(height: bigScreen ? 20 : 0,),
+        Expanded(
+          child: ListView.builder(
+            itemCount: avisos.length,
+              itemBuilder:(BuildContext context, index){
+              return _noticeListItem(avisos[index]);
+          },
+          ),
+        ),
+      ],
     );
 
   }
@@ -108,7 +142,7 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       child: ListTile(
         isThreeLine: true,
         title: Text(pojo.title),
-        subtitle: Text(pojo.description, maxLines: 3,),
+        subtitle: Text(pojo.description, maxLines: 3,overflow: TextOverflow.ellipsis),
         trailing: FlatButton(
           minWidth: 0,
           onPressed: (){
@@ -132,6 +166,8 @@ class AdminNoticeMenuState extends State<AdminNoticeMenu> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            bigScreen ? Text("Crear aviso",style: TextStyle(fontSize: 22)) : SizedBox(),
+            SizedBox(height: bigScreen ? 20 : 0,),
             TextFormField(
               decoration: InputDecoration(
                   labelText: "Titulo",

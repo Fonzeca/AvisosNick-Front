@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nick_tecnologia_notices/manager/api_calls.dart';
-import 'package:nick_tecnologia_notices/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 
 class AdministratorMenu extends StatefulWidget {
@@ -15,23 +13,40 @@ class _AdministratorMenuState extends State<AdministratorMenu> {
       appBar: AppBar(
         title: Text("Administración"),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 60.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: [
-            _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
-            _buildButton("Avisos", Icons.send, "/administrator/notices"),
-            _buildButton("Tipos de usuario", Icons.assignment_ind, "/administrator/userTypes"),
-            _buildButton("Análisis", Icons.analytics, "/administrator/analysis"),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 60.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildButton("Usuarios", Icons.person, "/administrator/usuarios"),
+                  _buildButton("Avisos", Icons.send, "/administrator/notices"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildButton("Tipos de usuario", Icons.assignment_ind, "/administrator/userTypes"),
+                  _buildButton("Análisis", Icons.analytics, "/administrator/analysis"),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildButton(String text, IconData icon, String routeScreen) {
+    double screen_size = MediaQuery.of(context).size.width >= 500 ? 500 :  MediaQuery.of(context).size.width ;
+    double tam = screen_size/ 2 -10-20;
+
     return Container(
+      height: tam,
+      width: tam,
       margin: EdgeInsets.all(5.0),
       child: Material(
         color: Colors.transparent,

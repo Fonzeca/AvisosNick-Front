@@ -1,6 +1,6 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
 import 'package:nick_tecnologia_notices/model/type.dart';
@@ -21,29 +21,50 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
 
   bool saveButtonEnabled = true;
 
+  bool bigScreen = false;
   @override
   Widget build(BuildContext context) {
     init();
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    if(MediaQuery.of(context).size.width >= 800){
+      bigScreen = true;
+      return Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Text("Lista de tipos"),
-              Text("Crear tipo de usuario"),
-            ],
-          ),
           title: Text("Tipos de usuario"),
         ),
-        body: TabBarView(
-          children: [
-            _buildListOfUserTypes(tiposDeUsuario),
-            _createUserTypeTab()
-          ],
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Row(
+            children: [
+              Expanded(child: _buildListOfUserTypes(tiposDeUsuario)),
+              Container(width: 500,child: _createUserTypeTab())
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }else{
+      bigScreen = false;
+      return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Text("Lista de tipos"),
+                Text("Crear tipo de usuario"),
+              ],
+            ),
+            title: Text("Tipos de usuario"),
+          ),
+          body: TabBarView(
+            children: [
+              _buildListOfUserTypes(tiposDeUsuario),
+              _createUserTypeTab()
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   void init() {
@@ -58,6 +79,9 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
         EasyLoading.showError(e.toString());
       });
     }
+    if(tiposDeUsuario != null){
+      EasyLoading.dismiss();
+    }
   }
 
 
@@ -68,11 +92,20 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
           textAlign: TextAlign.center);
     }
 
-    return ListView.builder(
-      itemCount: types.length,
-      itemBuilder: (BuildContext context, index) {
-        return _userTypeListItem(types[index]);
-      },
+    return Column(
+      children: [
+        SizedBox(height: bigScreen ? 20 : 0,),
+        bigScreen ? Text("Lista de tipos",style: TextStyle(fontSize: 22),) : SizedBox(),
+        SizedBox(height: bigScreen ? 10 : 0,),
+        Expanded(
+          child: ListView.builder(
+            itemCount: types.length,
+            itemBuilder: (BuildContext context, index) {
+              return _userTypeListItem(types[index]);
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -85,6 +118,8 @@ class _AdminUserTypeMenuState extends State<AdminUserTypeMenu> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            bigScreen ? Text("Crear tipo de usuario",style: TextStyle(fontSize: 22),) : SizedBox(),
+            SizedBox(height: bigScreen ? 10 : 0,),
             _createInputText("Código", Icons.code, "code"),
             _createInputText("Descripción", Icons.description, "description"),
             _buildSaveButton()

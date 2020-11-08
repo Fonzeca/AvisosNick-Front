@@ -66,7 +66,7 @@ class _AdminAnalysisMenuState extends State<AdminAnalysisMenu>{
     return Card(
       child: ListTile(
         title: Text(pojo.title),
-        subtitle: Text(pojo.description),
+        subtitle: Text(pojo.description,maxLines: 3,overflow: TextOverflow.ellipsis,),
         trailing: FlatButton(
           minWidth: 0,
           onPressed: () {
