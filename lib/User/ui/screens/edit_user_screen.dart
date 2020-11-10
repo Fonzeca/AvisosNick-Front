@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
-import 'package:nick_tecnologia_notices/model/user.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/user.dart';
 
 class EditUser extends StatefulWidget {
   final bool isAdmin;

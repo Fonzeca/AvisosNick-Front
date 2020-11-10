@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:nick_tecnologia_notices/manager/mindia_http_client.dart';
-import 'package:nick_tecnologia_notices/model/notice.dart';
-import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
-import 'package:nick_tecnologia_notices/model/type.dart';
-import 'package:nick_tecnologia_notices/model/user.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/Notice/model/notice.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/pojo_log_in.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/type.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/user.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:universal_io/io.dart';
 

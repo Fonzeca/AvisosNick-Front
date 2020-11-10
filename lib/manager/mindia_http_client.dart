@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

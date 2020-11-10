@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nick_tecnologia_notices/manager/login_in.dart';
-import 'package:nick_tecnologia_notices/model/notice.dart';
-import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/Notice/model/notice.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:nick_tecnologia_notices/utilities/strings.dart';
 import 'package:responsive_scaffold/templates/layout/scaffold.dart';
 
-import '../manager/api_calls.dart';
+import '../../../manager/api_calls.dart';
 import 'notice.dart';
 
 class DashBoardNotices extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nick_tecnologia_notices/manager/api_calls.dart';
-import 'package:nick_tecnologia_notices/model/pojo_log_in.dart';
+import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/model/pojo_log_in.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
