@@ -1,9 +1,11 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/admin_analysis_menu.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/admin_notices_menu.dart';
 import 'package:nick_tecnologia_notices/screens/administrator/admin_userTypes_menu.dart';
@@ -74,17 +76,18 @@ class MyApp extends StatelessWidget {
       }
       return false;
     });
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: 'OpenSans',
+    return CupertinoApp(
+      title: 'Avisos Nick',
+      localizationsDelegates: [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate
+      ],
+      theme: CupertinoThemeData(
+        brightness: Brightness.light,
         primaryColor: nickPrimaryColor,
-        primaryColorLight: nickPrimaryColorLight,
-        primaryColorDark: nickPrimaryColorDark,
-        accentColor: nickAccentColor,
       ),
+      debugShowCheckedModeBanner: false,
       home: LoginScreen(),
       routes: <String, WidgetBuilder>{
         '/dashBoard' : (BuildContext context) => new DashBoardNotices(),
@@ -103,4 +106,6 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
+
 }

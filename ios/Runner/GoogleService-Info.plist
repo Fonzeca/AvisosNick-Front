@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>944140954391-el8pa8g4c0om1cfajphon11fpj8gcvdk.apps.googleusercontent.com</string>
+	<string>944140954391-mfq92c0ghjqd45dpj5ph82g9spkibn56.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.944140954391-el8pa8g4c0om1cfajphon11fpj8gcvdk</string>
+	<string>com.googleusercontent.apps.944140954391-mfq92c0ghjqd45dpj5ph82g9spkibn56</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>944140954391-roskdqfusu215btrldisog9akat9gh5u.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.flutter.plugins.example</string>
+	<string>com.flutter.firebase.nickTecnologiaNotices</string>
 	<key>PROJECT_ID</key>
 	<string>avisosnick</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:944140954391:ios:fcb4ab19823c191b8a6552</string>
+	<string>1:944140954391:ios:f9bf6940c1e0ae818a6552</string>
 	<key>DATABASE_URL</key>
 	<string>https://avisosnick.firebaseio.com</string>
 </dict>
