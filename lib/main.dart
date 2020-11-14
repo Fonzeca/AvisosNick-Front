@@ -4,10 +4,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nick_tecnologia_notices/Notice/bloc/bloc_notice.dart';
+import 'package:nick_tecnologia_notices/User/bloc/bloc_user.dart';
 import 'package:nick_tecnologia_notices/routes.dart';
 import 'file:///C:/Users/Alexis%20Fonzo/Desktop/FlutterProyects/nick_tecnologia_notices/lib/User/ui/screens/login_screen_v3.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +82,13 @@ class MyApp extends StatelessWidget {
         primaryColorDark: nickPrimaryColorDark,
         accentColor: nickAccentColor,
       ),
-      home: LoginScreen(),
+      home: MultiProvider(
+        providers: [
+          Provider<NoticeBloc>.value(value: NoticeBloc()),
+          Provider<UserBloc>.value(value: UserBloc()),
+        ],
+        child: LoginScreen(),
+      ),
       routes: routesNick,
       builder: (BuildContext context, Widget child) {
         FlutterEasyLoading easyLoading = FlutterEasyLoading(child: child,);
