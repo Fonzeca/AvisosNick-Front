@@ -17,6 +17,7 @@ import 'package:nick_tecnologia_notices/screens/login_screen_v3.dart';
 import 'package:nick_tecnologia_notices/screens/notice.dart';
 import 'package:nick_tecnologia_notices/utilities/constants.dart';
 import 'package:flutter/rendering.dart';
+import 'package:universal_io/prefer_universal/io.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
           }
           print("onResume: $message");
         },
-        onBackgroundMessage: myBackgroundMessageHandler,
+        onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       );
     }
   }
